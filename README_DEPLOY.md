@@ -31,7 +31,7 @@ Cloudflare: Workers & Pages → Create application → Get started → Drag and 
 - Enable Cloudflare Web Analytics from the Pages project's Metrics area if desired. Cloudflare Pages can inject the analytics beacon automatically on the next deployment.
 - Add a custom domain when ready.
 - Once the final custom domain is known, add an absolute canonical URL / sitemap if desired. The current canonical link is relative and works without knowing the launch hostname.
-- Add a dedicated feedback email or feedback form before broad promotion. No public email address was embedded in this package.
+- Public feedback/contact email is set to `eischenld@gmail.com`.
 
 ## Important before charging for it
 - Validate the electrical assumptions and recommendations with representative 5V, 12V, and 24V projects.
