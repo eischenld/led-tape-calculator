@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free LED tape project calculator for power supply sizing, current draw, feeder voltage drop, power injection, RGB/RGBW, and addressable IC tape planning.">
+<meta name="theme-color" content="#0b0f14">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LED Tape Project Calculator">
+<meta property="og:description" content="Plan LED tape power, PSU capacity, voltage drop, injection points, IC pixels, and project hardware.">
+<meta property="og:image" content="/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LED Tape Project Calculator">
+<meta name="twitter:description" content="Free LED tape power, voltage-drop, injection, and IC pixel planning calculator.">
+<meta name="twitter:image" content="/og-image.png">
+<title>LED Tape Project Calculator — Power, Voltage Drop & Injection Planner</title>
+<style>
+  :root{
+    --bg:#0b0f14;
+    --panel:#111823;
+    --panel2:#151f2c;
+    --line:#28384a;
+    --text:#f3f6fa;
+    --muted:#9cb0c4;
+    --accent:#58d68d;
+    --accent2:#62b6ff;
+    --warn:#ffcc66;
+    --danger:#ff7b7b;
+    --shadow:0 12px 34px rgba(0,0,0,.28);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, ui-sans-serif, system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(98,182,255,.13), transparent 28rem),
+      radial-gradient(circle at 90% 8%, rgba(88,214,141,.10), transparent 25rem),
+      var(--bg);
+    color:var(--text);
+  }
+  .shell{max-width:1180px;margin:auto;padding:28px 18px 60px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{
+    width:46px;height:46px;border-radius:14px;
+    background:linear-gradient(135deg,var(--accent2),var(--accent));
+    box-shadow:var(--shadow);
+    display:grid;place-items:center;font-weight:900;color:#071018;
+  }
+  .brand h1{font-size:20px;margin:0}
+  .brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+  .pill{
+    border:1px solid var(--line); background:rgba(255,255,255,.03);
+    color:var(--muted); border-radius:999px; padding:8px 12px; font-size:12px;
+  }
+  .hero{
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
+    box-shadow:var(--shadow);
+    margin-bottom:20px;
+  }
+  .hero h2{font-size:36px;line-height:1.08;margin:0 0 10px;max-width:780px}
+  .hero p{color:var(--muted);margin:0;max-width:820px;line-height:1.55}
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.9fr);gap:20px}
+  .card{
+    background:linear-gradient(180deg,var(--panel),#0f1620);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .card-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .card-head h3{margin:0;font-size:16px}
+  .card-body{padding:20px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}
+  input,select{
+    width:100%; background:#0b1119; color:var(--text);
+    border:1px solid #2b3b4d; border-radius:11px; padding:12px 12px;
+    outline:none; font-size:14px;
+  }
+  input:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(98,182,255,.11)}
+  .wide{grid-column:1/-1}
+  .hint{font-size:11px;color:#758ba0;margin-top:6px;line-height:1.4}
+  .actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  button{
+    border:0;border-radius:11px;padding:12px 15px;font-weight:700;cursor:pointer;
+    background:linear-gradient(135deg,var(--accent2),#7bd4ff);color:#071018;
+  }
+  button.secondary{background:#182433;color:var(--text);border:1px solid var(--line)}
+  .results{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .metric{
+    padding:14px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.025)
+  }
+  .metric span{display:block;color:var(--muted);font-size:11px;margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em}
+  .metric strong{font-size:22px}
+  .status{
+    margin-top:14px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);
+    background:#101923;color:#d8e5f1;line-height:1.45;font-size:13px
+  }
+  .status.good{border-color:rgba(88,214,141,.5);background:rgba(88,214,141,.08)}
+  .status.warn{border-color:rgba(255,204,102,.5);background:rgba(255,204,102,.08)}
+  .status.bad{border-color:rgba(255,123,123,.5);background:rgba(255,123,123,.08)}
+  .bom{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+  .bom h4{margin:0 0 10px;font-size:14px}
+  .bom ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+  .bom li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed #263547;padding:8px 0;font-size:13px}
+  .bom em{font-style:normal;color:var(--muted);text-align:right}
+  .footer{color:#6f8294;font-size:11px;line-height:1.5;margin-top:18px;text-align:center}
+  .badge{font-size:11px;padding:5px 9px;border-radius:999px;background:rgba(88,214,141,.1);color:#91efb6;border:1px solid rgba(88,214,141,.25)}
+  .skip-link{position:absolute;left:-999px;top:8px;background:#fff;color:#000;padding:8px 12px;border-radius:8px;z-index:99}
+  .skip-link:focus{left:8px}
+  .site-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+  .site-links a{color:#8fa6bb;text-decoration:none}
+  .site-links a:hover,.site-links a:focus{text-decoration:underline;color:#cfe7ff}
+  .version{display:inline-block;margin-left:6px;padding:2px 7px;border:1px solid #26384a;border-radius:999px;color:#8298ac}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #8ed3ff;outline-offset:2px}
+
+  .unit-toggle{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:#0b1119}
+  .unit-toggle button{padding:7px 11px;border-radius:999px;background:transparent;color:var(--muted);border:0;font-size:12px;font-weight:700}
+  .unit-toggle button.active{background:linear-gradient(135deg,var(--accent2),#7bd4ff);color:#071018}
+  @media(max-width:850px){
+    .grid{grid-template-columns:1fr}
+    .hero h2{font-size:29px}
+  }
+  @media(max-width:540px){
+    .form-grid,.results{grid-template-columns:1fr}
+    .wide{grid-column:auto}
+    .topbar{align-items:flex-start}
+    .pill{display:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#calculator">Skip to calculator</a>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">LED</div>
+      <div>
+        <h1>LED Tape Project Calculator</h1>
+        <p>Beta • Professional planning mode</p>
+      </div>
+    </div>
+    <div class="pill">DIY + Pro Install Planning</div>
+  </div>
+
+  <section class="hero">
+    <span class="badge">PUBLIC BETA</span>
+    <h2>Plan LED tape power, feeders, injection points, and project hardware.</h2>
+    <p>Enter the tape specifications and installation geometry. Estimate connected load, PSU capacity, feeder voltage drop, recommended power injection count, addressable pixel requirements, and a simple parts list.</p>
+  </section>
+
+  <main id="calculator" class="grid">
+    <section class="card">
+      <div class="card-head">
+        <h3>Project Inputs</h3>
+        <div class="unit-toggle" aria-label="Unit system">
+          <button type="button" id="imperialBtn">Imperial</button>
+          <button type="button" id="metricBtn" class="active">Metric</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div>
+            <label for="voltage">Tape voltage</label>
+            <select id="voltage">
+              <option value="24" selected>24 VDC</option>
+              <option value="12">12 VDC</option>
+              <option value="5">5 VDC</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="channels">Tape type</label>
+            <select id="channels">
+              <optgroup label="Constant-voltage tape">
+                <option value="1" data-kind="cv" data-name="Single color">Single color</option>
+                <option value="3" data-kind="cv" data-name="RGB">RGB</option>
+                <option value="4" data-kind="cv" data-name="RGBW" selected>RGBW</option>
+                <option value="5" data-kind="cv" data-name="RGB+CCT">RGB+CCT / RGBCCT</option>
+              </optgroup>
+              <optgroup label="Addressable / IC tape">
+                <option value="3" data-kind="ic" data-chip="WS2811" data-name="WS2811 RGB">WS2811 RGB</option>
+                <option value="3" data-kind="ic" data-chip="WS2812B" data-name="WS2812B RGB">WS2812B RGB</option>
+                <option value="4" data-kind="ic" data-chip="SK6812" data-name="SK6812 RGBW">SK6812 RGBW</option>
+                <option value="3" data-kind="ic" data-chip="WS2815" data-name="WS2815 RGB">WS2815 RGB</option>
+                <option value="3" data-kind="ic" data-chip="UCS2904" data-name="UCS2904 RGB">UCS2904 RGB</option>
+                <option value="3" data-kind="ic" data-chip="TM1814" data-name="TM1814 RGB">TM1814 RGB</option>
+                <option value="4" data-kind="ic" data-chip="TM1814" data-name="TM1814 RGBW">TM1814 RGBW</option>
+                <option value="3" data-kind="ic" data-chip="APA102" data-name="APA102 / DotStar RGB">APA102 / DotStar RGB</option>
+                <option value="3" data-kind="ic" data-chip="LPD8806" data-name="LPD8806 RGB">LPD8806 RGB</option>
+                <option value="3" data-kind="ic" data-chip="Custom IC" data-name="Custom addressable RGB">Custom addressable RGB</option>
+                <option value="4" data-kind="ic" data-chip="Custom IC" data-name="Custom addressable RGBW">Custom addressable RGBW</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div>
+            <label for="wattsPerFt">Tape watts / <span id="powerUnitLabel">m</span></label>
+            <input id="wattsPerFt" type="text" value="15.75" inputmode="decimal" placeholder="e.g. 90/5 or 18">
+            <div class="hint">Use manufacturer rated maximum power. Simple formulas are allowed, e.g. 90/5.</div>
+          </div>
+
+          <div>
+            <label for="length">Total tape length (<span id="lengthUnitLabel">m</span>)</label>
+            <input id="length" type="number" value="12.8" min=".1" step=".1">
+          </div>
+
+          <div>
+            <label for="runs">Number of separate runs</label>
+            <input id="runs" type="number" value="2" min="1" step="1">
+          </div>
+
+          <div id="pixelDensityWrap" style="display:none">
+            <label for="pixelDensity">LEDs / <span id="pixelDensityUnit">m</span></label>
+            <input id="pixelDensity" type="number" value="60" min="1" step="1">
+            <div class="hint">Enter physical LED density for addressable tape.</div>
+          </div>
+
+          <div id="pixelsPerICWrap" style="display:none">
+            <label for="pixelsPerIC">LEDs per IC / pixel group</label>
+            <input id="pixelsPerIC" type="number" value="1" min="1" step="1">
+            <div class="hint">Use 1 for individually addressable tape; 3+ for grouped-pixel tape.</div>
+          </div>
+
+          <div>
+            <label for="maxRun">Manufacturer max run before injection (<span id="maxRunUnitLabel">m</span>)</label>
+            <input id="maxRun" type="number" value="4.88" min="1" step="1">
+          </div>
+
+          <div>
+            <label for="feedDistance">PSU-to-tape feeder distance (<span id="feedUnitLabel">m</span>)</label>
+            <input id="feedDistance" type="number" value="7.62" min="0" step="1">
+          </div>
+
+          <div>
+            <label for="awg">Feeder wire size</label>
+            <select id="awg">
+              <option value="18">18 AWG</option>
+              <option value="16">16 AWG</option>
+              <option value="14" selected>14 AWG</option>
+              <option value="12">12 AWG</option>
+              <option value="10">10 AWG</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="margin">PSU safety margin</label>
+            <select id="margin">
+              <option value="1.10">10%</option>
+              <option value="1.20" selected>20%</option>
+              <option value="1.25">25%</option>
+              <option value="1.30">30%</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="maxDrop">Max feeder voltage drop</label>
+            <select id="maxDrop">
+              <option value="2">2%</option>
+              <option value="3" selected>3%</option>
+              <option value="5">5%</option>
+            </select>
+          </div>
+
+          <div class="wide">
+            <label for="project">Project name</label>
+            <input id="project" value="Kitchen Cove Lighting">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="calc">Calculate project</button>
+          <button class="secondary" id="copy">Copy summary</button>
+          <button class="secondary" id="exportPdf">Export PDF</button>
+          <button class="secondary" id="reset">Load example</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="card-head">
+        <h3>Project Results</h3>
+        <span id="projectLabel" style="color:var(--muted);font-size:12px"></span>
+      </div>
+      <div class="card-body">
+        <div class="results">
+          <div class="metric"><span>Connected Load</span><strong id="loadW">—</strong></div>
+          <div class="metric"><span>Full-load Current</span><strong id="amps">—</strong></div>
+          <div class="metric"><span>Minimum PSU</span><strong id="psu">—</strong></div>
+          <div class="metric"><span>Suggested Standard PSU</span><strong id="stdPsu">—</strong></div>
+          <div class="metric"><span>Feeder Drop</span><strong id="dropV">—</strong></div>
+          <div class="metric"><span>Voltage Drop %</span><strong id="dropPct">—</strong></div>
+          <div class="metric"><span>Injection Points</span><strong id="inject">—</strong></div>
+          <div class="metric"><span>Channels</span><strong id="chanOut">—</strong></div>
+          <div class="metric" id="pixelMetric" style="display:none"><span>Pixel Groups</span><strong id="pixelCount">—</strong></div>
+          <div class="metric" id="dataMetric" style="display:none"><span>Pixel Data Channels</span><strong id="dataChannels">—</strong></div>
+        </div>
+
+        <div id="status" class="status">Enter project information and calculate.</div>
+
+        <div class="bom">
+          <h4>Suggested project BOM</h4>
+          <ul id="bomList">
+            <li><span>LED tape</span><em>—</em></li>
+            <li><span>Power supply</span><em>—</em></li>
+            <li><span>Feeder wire</span><em>—</em></li>
+            <li><span>Power injection feeds</span><em>—</em></li>
+            <li><span>Controller / decoder</span><em>—</em></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="footer">
+    Beta planning tool only. Calculations are estimates based on user-entered manufacturer data. Final conductor sizing, overcurrent protection, enclosure requirements, listing requirements, Class 2 limitations, and installation methods must comply with applicable codes and manufacturer instructions.
+    <span class="version">v0.1.0-beta</span>
+    <div class="site-links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a></div>
+  </div>
+</div>
+
+
+<script>
+const resistancePer1000ft = {10:0.999,12:1.588,14:2.525,16:4.016,18:6.385};
+const metricWire = {
+  "0.75": {label:"0.75 mm²", r:7.94},
+  "1.0": {label:"1.0 mm²", r:5.98},
+  "1.5": {label:"1.5 mm²", r:3.99},
+  "2.5": {label:"2.5 mm²", r:2.39},
+  "4.0": {label:"4.0 mm²", r:1.50},
+  "6.0": {label:"6.0 mm²", r:0.998}
+};
+const standardPSU = [60,100,120,150,200,240,300,320,350,400,480,500,600,720,1000];
+let unitSystem = "metric";
+const $ = id => document.getElementById(id);
+
+function nearestStandard(w){
+  for(const s of standardPSU){ if(s >= w) return s; }
+  return Math.ceil(w/100)*100;
+}
+function n(v,d=1){ return Number(v).toLocaleString(undefined,{maximumFractionDigits:d}); }
+function ftToM(v){ return v*0.3048; }
+function mToFt(v){ return v/0.3048; }
+function wFtToWM(v){ return v/0.3048; }
+function wMToWFt(v){ return v*0.3048; }
+
+function evalMathExpression(value){
+  const expr = String(value ?? "").trim();
+  if(!expr) return 0;
+
+  // Allow only digits, decimal points, whitespace, parentheses, and basic arithmetic operators.
+  // This intentionally rejects names, functions, commas, %, ^, and other JavaScript syntax.
+  if(!/^[0-9+\-*/().\s]+$/.test(expr)) return NaN;
+
+  try{
+    const result = Function('"use strict"; return (' + expr + ')')();
+    return (typeof result === "number" && Number.isFinite(result)) ? result : NaN;
+  }catch(e){
+    return NaN;
+  }
+}
+
+
+function getTapeMeta(){
+  const opt = $("channels").selectedOptions[0];
+  return {
+    channels:+opt.value,
+    kind:opt.dataset.kind || "cv",
+    chip:opt.dataset.chip || "",
+    name:opt.dataset.name || opt.textContent.trim()
+  };
+}
+
+function buildWireOptions(){
+  const sel = $("awg");
+  const current = sel.value;
+  sel.innerHTML = '<option value="18">18 AWG</option><option value="16">16 AWG</option><option value="14">14 AWG</option><option value="12">12 AWG</option><option value="10">10 AWG</option>';
+  sel.value = ["18","16","14","12","10"].includes(current) ? current : "14";
+}
+
+function updateTapeFields(){
+  const isIC = getTapeMeta().kind === "ic";
+  $("pixelDensityWrap").style.display = isIC ? "" : "none";
+  $("pixelsPerICWrap").style.display = isIC ? "" : "none";
+  $("pixelMetric").style.display = isIC ? "" : "none";
+  $("dataMetric").style.display = isIC ? "" : "none";
+  $("pixelDensityUnit").textContent = unitSystem === "imperial" ? "ft" : "m";
+}
+
+function switchUnits(target){
+  if(target === unitSystem) return;
+
+  const wattsEval = evalMathExpression($("wattsPerFt").value);
+  const watts = Number.isFinite(wattsEval) ? wattsEval : 0;
+  const len = +$("length").value || 0;
+  const maxRun = +$("maxRun").value || 0;
+  const feed = +$("feedDistance").value || 0;
+  const density = +$("pixelDensity").value || 0;
+
+  if(target === "metric"){
+    $("wattsPerFt").value = wFtToWM(watts).toFixed(2);
+    $("length").value = ftToM(len).toFixed(2);
+    $("maxRun").value = ftToM(maxRun).toFixed(2);
+    $("feedDistance").value = ftToM(feed).toFixed(2);
+    $("pixelDensity").value = (density / 0.3048).toFixed(1);
+  } else {
+    $("wattsPerFt").value = wMToWFt(watts).toFixed(2);
+    $("length").value = mToFt(len).toFixed(2);
+    $("maxRun").value = mToFt(maxRun).toFixed(2);
+    $("feedDistance").value = mToFt(feed).toFixed(2);
+    $("pixelDensity").value = (density * 0.3048).toFixed(1);
+  }
+
+  unitSystem = target;
+  $("imperialBtn").classList.toggle("active",target==="imperial");
+  $("metricBtn").classList.toggle("active",target==="metric");
+  $("powerUnitLabel").textContent = target==="imperial" ? "ft" : "m";
+  $("lengthUnitLabel").textContent = target==="imperial" ? "ft" : "m";
+  $("maxRunUnitLabel").textContent = target==="imperial" ? "ft" : "m";
+  $("feedUnitLabel").textContent = target==="imperial" ? "ft" : "m";
+  $("pixelDensityUnit").textContent = target==="imperial" ? "ft" : "m";
+
+  buildWireOptions();
+  updateTapeFields();
+  calculate();
+}
+
+function calculate(){
+  const tape = getTapeMeta();
+  const voltage = +$("voltage").value;
+  const channels = tape.channels;
+  const isIC = tape.kind === "ic";
+  const wattsEval = evalMathExpression($("wattsPerFt").value);
+  if(!Number.isFinite(wattsEval) || wattsEval < 0){
+    $("status").className = "status bad";
+    $("status").textContent = "Enter a valid watts expression using numbers and +, -, *, /, or parentheses. Example: 90/5";
+    return;
+  }
+  const wattsPerUnit = wattsEval;
+  const lengthInput = +$("length").value || 0;
+  const runs = Math.max(1,+$("runs").value || 1);
+  const maxRunInput = Math.max(.01,+$("maxRun").value || 1);
+  const feedInput = Math.max(0,+$("feedDistance").value || 0);
+  const wireVal = $("awg").value;
+  const margin = +$("margin").value;
+  const maxDrop = +$("maxDrop").value;
+  const project = $("project").value.trim() || "Untitled Project";
+
+  const lengthFt = unitSystem==="imperial" ? lengthInput : mToFt(lengthInput);
+  const maxRunFt = unitSystem==="imperial" ? maxRunInput : mToFt(maxRunInput);
+  const feedFt = unitSystem==="imperial" ? feedInput : mToFt(feedInput);
+  const wattsPerFt = unitSystem==="imperial" ? wattsPerUnit : wMToWFt(wattsPerUnit);
+
+  const loadW = wattsPerFt * lengthFt;
+  const amps = loadW / voltage;
+  const minPSU = loadW * margin;
+  const std = nearestStandard(minPSU);
+
+  const wireR = resistancePer1000ft[+wireVal] * (feedFt*2) / 1000;
+  const wireLabel = `${wireVal} AWG`;
+
+  const dropV = amps * wireR;
+  const dropPct = voltage ? (dropV/voltage)*100 : 0;
+  const avgRun = lengthFt / runs;
+  const feedsPerRun = Math.max(1,Math.ceil(avgRun/maxRunFt));
+  const totalFeeds = feedsPerRun*runs;
+  const extra = Math.max(0,totalFeeds-runs);
+
+  const densityInput = Math.max(0,+$("pixelDensity").value || 0);
+  const densityPerFt = unitSystem==="imperial" ? densityInput : densityInput*0.3048;
+  const ledsPerIC = Math.max(1,+$("pixelsPerIC").value || 1);
+  const ledCount = Math.round(lengthFt*densityPerFt);
+  const pixelGroups = Math.ceil(ledCount/ledsPerIC);
+  const dataChannels = pixelGroups*channels;
+
+  $("projectLabel").textContent = project;
+  $("loadW").textContent = n(loadW)+" W";
+  $("amps").textContent = n(amps,2)+" A";
+  $("psu").textContent = n(minPSU)+" W";
+  $("stdPsu").textContent = std+" W";
+  $("dropV").textContent = n(dropV,2)+" V";
+  $("dropPct").textContent = n(dropPct,2)+"%";
+  $("inject").textContent = extra;
+  $("chanOut").textContent = isIC ? `${channels} / pixel` : channels;
+  $("pixelCount").textContent = isIC ? n(pixelGroups,0) : "—";
+  $("dataChannels").textContent = isIC ? n(dataChannels,0) : "—";
+
+  const status = $("status");
+  status.className = "status";
+  let msg = "";
+  if(dropPct <= maxDrop*.7){
+    status.classList.add("good");
+    msg = `Feeder voltage drop is comfortably below your ${maxDrop}% design target. `;
+  } else if(dropPct <= maxDrop){
+    status.classList.add("warn");
+    msg = `Feeder voltage drop is within your ${maxDrop}% target, but with limited margin. `;
+  } else {
+    status.classList.add("bad");
+    msg = `Feeder voltage drop exceeds your ${maxDrop}% target. Consider larger conductors, a shorter feeder, multiple home runs, or relocating the power supply. `;
+  }
+
+  const u = unitSystem==="imperial" ? "ft" : "m";
+  const lenLabel = `${n(lengthInput)} ${u}`;
+  const feedLabel = `${n(feedInput)} ${u}`;
+  const maxLabel = `${n(maxRunInput)} ${u}`;
+
+  msg += extra>0
+    ? `Based on the ${maxLabel} maximum run you entered, plan approximately ${extra} additional power injection point${extra===1?"":"s"} beyond the ${runs} initial run feed${runs===1?"":"s"}.`
+    : `No additional injection points are indicated by the manufacturer run-length limit you entered.`;
+
+  if(isIC){
+    msg += ` ${tape.chip} tape is addressable: approximately ${n(pixelGroups,0)} pixel groups and ${n(dataChannels,0)} color-data channels based on the density entered.`;
+  }
+  status.textContent = msg;
+
+  const controllerText = isIC
+    ? `${tape.chip} compatible pixel controller • ${n(pixelGroups,0)} pixel groups`
+    : `${channels} channels • ≥ ${n(amps/channels,2)} A/channel if evenly loaded`;
+
+  $("bomList").innerHTML =
+    `<li><span>LED tape</span><em>${lenLabel} • ${voltage}V • ${tape.name}</em></li>`+
+    `<li><span>Power supply</span><em>${std}W minimum suggested standard size</em></li>`+
+    `<li><span>Feeder wire</span><em>${wireLabel} • ${feedLabel} one-way</em></li>`+
+    `<li><span>Total tape feed points</span><em>${totalFeeds} (${extra} additional injection)</em></li>`+
+    `<li><span>Controller / decoder</span><em>${controllerText}</em></li>`;
+
+  const rate = `${n(wattsPerUnit)} W/${u}`;
+  window.lastSummary =
+`${project}
+LED Tape Project Summary
+
+Units: ${unitSystem==="imperial"?"Imperial":"Metric"}
+Tape: ${voltage}V ${tape.name}
+Length: ${lenLabel}
+Rated load: ${rate}
+Connected load: ${n(loadW)} W
+Full-load current: ${n(amps,2)} A
+Minimum PSU with margin: ${n(minPSU)} W
+Suggested standard PSU: ${std} W
+Feeder: ${wireLabel}, ${feedLabel} one-way
+Estimated feeder voltage drop: ${n(dropV,2)} V (${n(dropPct,2)}%)
+Separate runs: ${runs}
+Manufacturer max run before injection: ${maxLabel}
+Suggested total tape feed points: ${totalFeeds}
+Additional injection points: ${extra}
+Control channels: ${isIC ? `${channels} per pixel` : channels}
+${isIC ? `IC type: ${tape.chip}
+LED density: ${n(densityInput,1)} LEDs/${u}
+LEDs per IC / pixel group: ${ledsPerIC}
+Estimated pixel groups: ${n(pixelGroups,0)}
+Estimated pixel data channels: ${n(dataChannels,0)}` : ""}
+
+Beta estimate only. Verify manufacturer instructions and applicable electrical codes.`;
+}
+
+$("imperialBtn").addEventListener("click",()=>switchUnits("imperial"));
+$("metricBtn").addEventListener("click",()=>switchUnits("metric"));
+$("channels").addEventListener("change",()=>{updateTapeFields();calculate();});
+["voltage","wattsPerFt","length","runs","maxRun","feedDistance","awg","margin","maxDrop","pixelDensity","pixelsPerIC","project"].forEach(id=>{
+  $(id).addEventListener("change",calculate);
+});
+$("calc").addEventListener("click",calculate);
+$("copy").addEventListener("click",async()=>{
+  calculate();
+  try{
+    await navigator.clipboard.writeText(window.lastSummary||"");
+    $("copy").textContent="Copied";
+    setTimeout(()=>$("copy").textContent="Copy summary",1200);
+  }catch(e){ alert(window.lastSummary); }
+});
+
+$("exportPdf").addEventListener("click",()=>{
+  calculate();
+  const tape = getTapeMeta();
+  const project = $("projectLabel").textContent || "LED Tape Project";
+  const statusText = $("status").textContent;
+  const bomHTML = $("bomList").innerHTML;
+
+  const metrics = [
+    ["Connected Load", $("loadW").textContent],
+    ["Full-load Current", $("amps").textContent],
+    ["Minimum PSU", $("psu").textContent],
+    ["Suggested Standard PSU", $("stdPsu").textContent],
+    ["Feeder Drop", $("dropV").textContent],
+    ["Voltage Drop %", $("dropPct").textContent],
+    ["Additional Injection Points", $("inject").textContent],
+    ["Control Channels", $("chanOut").textContent]
+  ];
+
+  if(tape.kind === "ic"){
+    metrics.push(["Pixel Groups", $("pixelCount").textContent]);
+    metrics.push(["Pixel Data Channels", $("dataChannels").textContent]);
+  }
+
+  const metricsHTML = metrics.map(([k,v]) =>
+    `<div class="metric"><div class="k">${k}</div><div class="v">${v}</div></div>`
+  ).join("");
+
+  const report = `
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${project.replace(/[<>]/g,"")} - LED Tape Project Report</title>
+<style>
+  @page{size:letter;margin:.55in}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:#17202a;margin:0;font-size:11pt}
+  .header{border-bottom:3px solid #2d7dd2;padding-bottom:12px;margin-bottom:18px}
+  .eyebrow{font-size:9pt;color:#687786;text-transform:uppercase;letter-spacing:.08em}
+  h1{font-size:22pt;margin:4px 0 4px}
+  .sub{color:#687786}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 18px}
+  .metric{border:1px solid #d5dde5;border-radius:8px;padding:10px}
+  .k{font-size:8.5pt;color:#687786;text-transform:uppercase;letter-spacing:.05em}
+  .v{font-size:15pt;font-weight:700;margin-top:3px}
+  h2{font-size:13pt;margin:20px 0 8px}
+  .summary{border:1px solid #d5dde5;background:#f6f8fa;border-radius:8px;padding:12px;line-height:1.45}
+  ul{list-style:none;padding:0;margin:0}
+  li{display:flex;justify-content:space-between;gap:20px;padding:7px 0;border-bottom:1px solid #e3e8ed}
+  li span{font-weight:600}
+  li em{font-style:normal;text-align:right;color:#44515d}
+  .details{white-space:pre-wrap;border:1px solid #d5dde5;border-radius:8px;padding:12px;font-family:Consolas,monospace;font-size:9pt;line-height:1.45}
+  .footer{margin-top:22px;padding-top:10px;border-top:1px solid #d5dde5;color:#6f7c88;font-size:8.5pt;line-height:1.4}
+  .no-print{margin:0 0 16px;padding:10px 14px;border:0;border-radius:7px;background:#2d7dd2;color:white;font-weight:700;cursor:pointer}
+  @media print{.no-print{display:none}}
+</style>
+</head>
+<body>
+<button class="no-print" onclick="window.print()">Save / Print PDF</button>
+<div class="header">
+  <div class="eyebrow">LED Tape Project Calculator</div>
+  <h1>${project.replace(/[<>]/g,"")}</h1>
+  <div class="sub">${unitSystem==="imperial" ? "Imperial" : "Metric"} units • ${tape.name}</div>
+</div>
+
+<div class="grid">${metricsHTML}</div>
+
+<h2>Design Assessment</h2>
+<div class="summary">${statusText}</div>
+
+<h2>Suggested Project BOM</h2>
+<ul>${bomHTML}</ul>
+
+<h2>Calculation Summary</h2>
+<div class="details">${(window.lastSummary || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
+
+<div class="footer">
+Planning report generated by the LED Tape Project Calculator beta. Calculations are estimates based on user-entered manufacturer data. Final conductor sizing, overcurrent protection, enclosure requirements, listing requirements, Class 2 limitations, and installation methods must comply with applicable codes and manufacturer instructions.
+</div>
+<script>
+window.addEventListener("load",()=>setTimeout(()=>window.print(),250));
+<\/script>
+</body>
+</html>`;
+
+  const w = window.open("", "_blank");
+  if(!w){
+    alert("Your browser blocked the report window. Allow pop-ups for this page and try Export PDF again.");
+    return;
+  }
+  w.document.open();
+  w.document.write(report);
+  w.document.close();
+});
+
+$("reset").addEventListener("click",()=>{
+  unitSystem="metric";
+  $("imperialBtn").classList.remove("active");
+  $("metricBtn").classList.add("active");
+  $("powerUnitLabel").textContent="m";
+  $("lengthUnitLabel").textContent="m";
+  $("maxRunUnitLabel").textContent="m";
+  $("feedUnitLabel").textContent="m";
+  $("pixelDensityUnit").textContent="m";
+  buildWireOptions();
+  $("voltage").value="24";
+  $("channels").value="4";
+  $("wattsPerFt").value="15.75";
+  $("length").value="12.8";
+  $("runs").value="2";
+  $("maxRun").value="4.88";
+  $("feedDistance").value="7.62";
+  $("pixelDensity").value="60";
+  $("pixelsPerIC").value="1";
+  $("awg").value="14";
+  $("margin").value="1.20";
+  $("maxDrop").value="3";
+  $("project").value="Kitchen Cove Lighting";
+  updateTapeFields();
+  calculate();
+});
+
+buildWireOptions();
+updateTapeFields();
+calculate();
+</script>
+
+</body>
+</html>
