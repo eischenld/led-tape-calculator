@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.0-beta (2026-08-23)
+Version: 0.3.1-beta (2026-08-23)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -77,7 +77,7 @@ Eight public guide pages were added:
 
 The homepage now links into the guide library. Canonical URLs and the sitemap use `https://ledtapecalculator.com`.
 
-\n## New in 0.3.0-beta
+\n## New in 0.3.1-beta
 - Added interactive DMX DIP Switch Calculator.
 - Converts DMX start addresses to DIP switch settings and vice versa.
 - Defaults to switches 1–9 as address bits; switch 10 is manufacturer-specific.
