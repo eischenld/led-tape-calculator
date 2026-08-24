@@ -1,13 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Free LED tape project calculator for power supply sizing, current draw, feeder voltage drop, power injection, RGB/RGBW, and addressable IC tape planning.">
 <meta name="theme-color" content="#0b0f14">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://ledtapecalculator.com/">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png">
 <link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:title" content="LED Tape Project Calculator">
@@ -19,7 +17,7 @@
 <meta name="twitter:title" content="LED Tape Project Calculator">
 <meta name="twitter:description" content="Free LED tape power, voltage-drop, injection, and IC pixel planning calculator.">
 <meta name="twitter:image" content="/og-image.png">
-<title>LED Tape Project Calculator — Power, Voltage Drop & Injection Planner</title>
+<title>LED Tape Project Calculator — Power, Voltage Drop &amp; Injection Planner</title>
 <style>
   :root{
     --bg:#0b0f14;
@@ -186,7 +184,7 @@
           <div>
             <label for="voltage">Tape voltage</label>
             <select id="voltage">
-              <option value="24" selected>24 VDC</option>
+              <option value="24" selected="">24 VDC</option>
               <option value="12">12 VDC</option>
               <option value="5">5 VDC</option>
             </select>
@@ -198,7 +196,7 @@
               <optgroup label="Constant-voltage tape">
                 <option value="1" data-kind="cv" data-name="Single color">Single color</option>
                 <option value="3" data-kind="cv" data-name="RGB">RGB</option>
-                <option value="4" data-kind="cv" data-name="RGBW" selected>RGBW</option>
+                <option value="4" data-kind="cv" data-name="RGBW" selected="">RGBW</option>
                 <option value="5" data-kind="cv" data-name="RGB+CCT">RGB+CCT / RGBCCT</option>
               </optgroup>
               <optgroup label="Addressable / IC tape">
@@ -257,20 +255,14 @@
 
           <div>
             <label for="awg">Feeder wire size</label>
-            <select id="awg">
-              <option value="18">18 AWG</option>
-              <option value="16">16 AWG</option>
-              <option value="14" selected>14 AWG</option>
-              <option value="12">12 AWG</option>
-              <option value="10">10 AWG</option>
-            </select>
+            <select id="awg"><option value="18">18 AWG</option><option value="16">16 AWG</option><option value="14">14 AWG</option><option value="12">12 AWG</option><option value="10">10 AWG</option></select>
           </div>
 
           <div>
             <label for="margin">PSU safety margin</label>
             <select id="margin">
               <option value="1.10">10%</option>
-              <option value="1.20" selected>20%</option>
+              <option value="1.20" selected="">20%</option>
               <option value="1.25">25%</option>
               <option value="1.30">30%</option>
             </select>
@@ -280,7 +272,7 @@
             <label for="maxDrop">Max feeder voltage drop</label>
             <select id="maxDrop">
               <option value="2">2%</option>
-              <option value="3" selected>3%</option>
+              <option value="3" selected="">3%</option>
               <option value="5">5%</option>
             </select>
           </div>
@@ -303,33 +295,27 @@
     <aside class="card">
       <div class="card-head">
         <h3>Project Results</h3>
-        <span id="projectLabel" style="color:var(--muted);font-size:12px"></span>
+        <span id="projectLabel" style="color:var(--muted);font-size:12px">Kitchen Cove Lighting</span>
       </div>
       <div class="card-body">
         <div class="results">
-          <div class="metric"><span>Connected Load</span><strong id="loadW">—</strong></div>
-          <div class="metric"><span>Full-load Current</span><strong id="amps">—</strong></div>
-          <div class="metric"><span>Minimum PSU</span><strong id="psu">—</strong></div>
-          <div class="metric"><span>Suggested Standard PSU</span><strong id="stdPsu">—</strong></div>
-          <div class="metric"><span>Feeder Drop</span><strong id="dropV">—</strong></div>
-          <div class="metric"><span>Voltage Drop %</span><strong id="dropPct">—</strong></div>
-          <div class="metric"><span>Injection Points</span><strong id="inject">—</strong></div>
-          <div class="metric"><span>Channels</span><strong id="chanOut">—</strong></div>
+          <div class="metric"><span>Connected Load</span><strong id="loadW">201.6 W</strong></div>
+          <div class="metric"><span>Full-load Current</span><strong id="amps">8.4 A</strong></div>
+          <div class="metric"><span>Minimum PSU</span><strong id="psu">241.9 W</strong></div>
+          <div class="metric"><span>Suggested Standard PSU</span><strong id="stdPsu">300 W</strong></div>
+          <div class="metric"><span>Feeder Drop</span><strong id="dropV">1.06 V</strong></div>
+          <div class="metric"><span>Voltage Drop %</span><strong id="dropPct">4.42%</strong></div>
+          <div class="metric"><span>Injection Points</span><strong id="inject">2</strong></div>
+          <div class="metric"><span>Channels</span><strong id="chanOut">4</strong></div>
           <div class="metric" id="pixelMetric" style="display:none"><span>Pixel Groups</span><strong id="pixelCount">—</strong></div>
           <div class="metric" id="dataMetric" style="display:none"><span>Pixel Data Channels</span><strong id="dataChannels">—</strong></div>
         </div>
 
-        <div id="status" class="status">Enter project information and calculate.</div>
+        <div id="status" class="status bad">Feeder voltage drop exceeds your 3% target. Consider larger conductors, a shorter feeder, multiple home runs, or relocating the power supply. Based on the 4.9 m maximum run you entered, plan approximately 2 additional power injection points beyond the 2 initial run feeds.</div>
 
         <div class="bom">
           <h4>Suggested project BOM</h4>
-          <ul id="bomList">
-            <li><span>LED tape</span><em>—</em></li>
-            <li><span>Power supply</span><em>—</em></li>
-            <li><span>Feeder wire</span><em>—</em></li>
-            <li><span>Power injection feeds</span><em>—</em></li>
-            <li><span>Controller / decoder</span><em>—</em></li>
-          </ul>
+          <ul id="bomList"><li><span>LED tape</span><em>12.8 m • 24V • RGBW</em></li><li><span>Power supply</span><em>300W minimum suggested standard size</em></li><li><span>Feeder wire</span><em>14 AWG • 7.6 m one-way</em></li><li><span>Total tape feed points</span><em>4 (2 additional injection)</em></li><li><span>Controller / decoder</span><em>4 channels • ≥ 2.1 A/channel if evenly loaded</em></li></ul>
         </div>
       </div>
     </aside>
@@ -338,7 +324,7 @@
   <section class="guide-section">
     <h2>LED Tape Guides</h2>
     <p>Learn the design choices behind the calculator—from voltage and wire sizing to pixels and DMX control.</p>
-    <div class="guide-cards"><a class="guide-card-home" href="/12v-vs-24v-led-tape.html"><strong>12V vs 24V LED Tape: Which Voltage Should You Use?</strong><span>Compare 12V and 24V LED tape for current draw, voltage drop, maximum run length, cut intervals, power supplies, and real-world installation.</span></a><a class="guide-card-home" href="/led-tape-power-supply-sizing.html"><strong>How to Size a Power Supply for LED Tape</strong><span>Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.</span></a><a class="guide-card-home" href="/led-tape-voltage-drop.html"><strong>LED Tape Voltage Drop Explained</strong><span>Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.</span></a><a class="guide-card-home" href="/led-tape-power-injection.html"><strong>LED Tape Power Injection: When and How to Add Feeds</strong><span>Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.</span></a></div>
+    <div class="guide-cards"><a class="guide-card-home" href="/5v-vs-12v-vs-24v-led-tape.html"><strong>5V vs 12V vs 24V LED Tape: What’s the Difference?</strong><span>Compare 5V, 12V, and 24V LED tape for current draw, voltage drop, run length, cut intervals, power injection, pixels, and real-world installation.</span></a><a class="guide-card-home" href="/led-tape-power-supply-sizing.html"><strong>How to Size a Power Supply for LED Tape</strong><span>Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.</span></a><a class="guide-card-home" href="/led-tape-voltage-drop.html"><strong>LED Tape Voltage Drop Explained</strong><span>Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.</span></a><a class="guide-card-home" href="/led-tape-power-injection.html"><strong>LED Tape Power Injection: When and How to Add Feeds</strong><span>Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.</span></a></div>
     <div class="guide-more"><a href="/guides.html">View all 8 guides →</a></div>
   </section>
 
@@ -778,5 +764,8 @@ updateTapeFields();
 calculate();
 </script>
 
-</body>
-</html>
+
+
+
+</body></html>
+
