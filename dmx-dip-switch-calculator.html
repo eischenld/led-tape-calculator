@@ -23,25 +23,23 @@
 .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px;font-weight:700}
 .field input,.field select{width:100%;background:#0b1119;color:var(--text);border:1px solid #2b3b4d;border-radius:11px;padding:12px;font-size:16px;outline:none}
 .field input:focus,.field select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(98,182,255,.11)}
-.address-output{border:1px solid var(--line);border-radius:14px;padding:16px;background:#0b1119;margin-top:12px}
-.address-output span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.07em}
-.address-output strong{display:block;font-size:38px;line-height:1.1;margin-top:4px}
+.address-field input{font-size:38px;font-weight:800;line-height:1.1;padding:14px 16px}
 .binary{font-family:Consolas,Monaco,monospace;color:#8ed3ff;font-size:13px;margin-top:5px;word-break:break-all}
 .dip-board{border:1px solid var(--line);border-radius:16px;padding:16px;background:#090e14;overflow:hidden}
 .dip-title{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:12px}
 .dip-title strong{font-size:14px}.dip-title span{font-size:11px;color:var(--muted)}
-.dips{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.dips{--track-h:clamp(32px,4.3vw,50px);--thumb-h:clamp(13px,1.7vw,20px);--track-pad:clamp(2px,.3vw,3px);display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:clamp(2px,.65vw,8px)}
 .dip{min-width:0}
-.dip button{width:100%;min-height:118px;padding:7px 5px;border-radius:10px;border:1px solid #33465a;background:#111b26;color:var(--text);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:5px}
+.dip button{width:100%;min-width:0;min-height:clamp(82px,11vw,118px);padding:clamp(4px,.55vw,7px) clamp(1px,.4vw,5px);border-radius:clamp(5px,.8vw,10px);border:1px solid #33465a;background:#111b26;color:var(--text);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:clamp(2px,.4vw,5px)}
 .dip button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
 .dip button[aria-pressed="true"]{border-color:rgba(88,214,141,.75);background:rgba(88,214,141,.13)}
 .dip button.function{border-style:dashed}.dip button.function[disabled]{opacity:.62;cursor:not-allowed}
-.dip-num{font-size:11px;font-weight:800}
-.dip-track{width:25px;height:50px;border-radius:5px;background:#05080c;border:1px solid #405064;padding:3px;display:flex;align-items:flex-end}
-.dip-thumb{width:100%;height:20px;border-radius:3px;background:#71869a;transition:transform .15s ease,background .15s ease}
-.dip button[aria-pressed="true"] .dip-thumb{transform:translateY(-23px);background:var(--accent)}
-.dip-weight{font-size:10px;color:var(--muted);white-space:nowrap}
-.on-label,.off-label{font-size:8px;color:#6f8294;line-height:1}
+.dip-num{font-size:clamp(8px,1vw,11px);font-weight:800}
+.dip-track{position:relative;width:clamp(15px,2.2vw,25px);height:var(--track-h);border-radius:clamp(3px,.45vw,5px);background:#05080c;border:1px solid #405064}
+.dip-thumb{position:absolute;left:var(--track-pad);right:var(--track-pad);bottom:var(--track-pad);height:var(--thumb-h);border-radius:3px;background:#71869a;transition:bottom .15s ease,background .15s ease}
+.dip button[aria-pressed="true"] .dip-thumb{bottom:calc(var(--track-h) - var(--thumb-h) - var(--track-pad));background:var(--accent)}
+.dip-weight{font-size:clamp(7px,.9vw,10px);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:clip;max-width:100%}
+.on-label,.off-label{font-size:clamp(6px,.7vw,8px);color:#6f8294;line-height:1}
 .status{margin-top:14px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#101923;color:#d8e5f1;line-height:1.48;font-size:13px}
 .status.good{border-color:rgba(88,214,141,.45);background:rgba(88,214,141,.07)}
 .status.warn{border-color:rgba(255,204,102,.5);background:rgba(255,204,102,.08)}
@@ -50,7 +48,7 @@
 .bit-table{margin-top:18px}.mini-note{font-size:12px;color:var(--muted);line-height:1.5}
 .tool-intro{margin:18px 0 14px}.tool-intro h1{margin:0 0 6px;font-size:clamp(28px,5vw,44px);line-height:1.08}.tool-intro p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
 .help-stack{display:grid;gap:10px;margin-top:18px}.help-stack details{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}.help-stack summary{cursor:pointer;padding:15px 18px;font-weight:800;color:var(--text);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}.help-stack summary::-webkit-details-marker{display:none}.help-stack summary::after{content:"+";font-size:22px;color:var(--accent2);font-weight:500}.help-stack details[open] summary::after{content:"−"}.help-body{padding:0 18px 18px;color:var(--muted)}.help-body .quick{margin:0 0 16px}.help-body .content{margin:0;padding:0;border:0;background:transparent;box-shadow:none}.related-compact{margin-top:18px}
-@media(min-width:1200px){.dips{grid-template-columns:repeat(10,minmax(0,1fr));gap:8px}}@media(max-width:940px){.tool-grid{grid-template-columns:1fr}}@media(max-width:520px){.dips{gap:6px}.dip button{min-height:108px;padding:6px 3px}.dip-track{width:22px}}
+@media(max-width:940px){.tool-grid{grid-template-columns:1fr}}@media(max-width:520px){.tool-panel{padding:14px}.dip-board{padding:10px}.dip-title span{display:none}}
 </style>
 </head>
 <body>
@@ -69,10 +67,11 @@
 <section>
 <div class="tool-grid">
 <div class="tool-panel">
-<h2>DMX Start Address</h2>
-<div class="field">
-<label for="dmxAddress">Address (1–512)</label>
+<h2>DMX Address</h2>
+<div class="field address-field">
+<label for="dmxAddress">Start address (1–512)</label>
 <input id="dmxAddress" type="number" inputmode="numeric" min="1" max="512" step="1" value="1">
+<div class="binary" id="binaryResult">Binary: 000000001</div>
 </div>
 <div class="field">
 <label for="dipMode">Decoder DIP layout</label>
@@ -81,12 +80,7 @@
 <option value="10">Switches 1–10 = address (switch 10 = 512)</option>
 </select>
 </div>
-<div class="address-output" aria-live="polite">
-<span>Calculated address</span>
-<strong id="addressResult">1</strong>
-<div class="binary" id="binaryResult">Binary: 000000001</div>
-</div>
-<div id="status" class="status good">DMX address 1: switch 1 ON.</div>
+<div id="status" class="status good" aria-live="polite">DMX address 1: switch 1 ON.</div>
 <div class="switch-summary">Switches ON: <strong id="switchSummary">1</strong></div>
 </div>
 
@@ -153,7 +147,7 @@
 <div class="related"><a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide</a></div>
 </section>
 
-<footer class="footer">LED Tape Calculator • 0.3.3-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+<footer class="footer">LED Tape Calculator • 0.3.4-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
 </div>
 
 <script>
@@ -161,7 +155,6 @@
   const input=document.getElementById("dmxAddress");
   const mode=document.getElementById("dipMode");
   const bank=document.getElementById("dipBank");
-  const result=document.getElementById("addressResult");
   const binary=document.getElementById("binaryResult");
   const status=document.getElementById("status");
   const summary=document.getElementById("switchSummary");
@@ -248,7 +241,7 @@
 
   function render(addr){
     const bitCount=mode.value==="10"?10:9;
-    result.textContent=String(addr);
+    input.value=String(addr);
     binary.textContent="Binary: "+addr.toString(2).padStart(bitCount,"0");
     const active=[];
     const last=mode.value==="10"?9:8;
@@ -276,7 +269,7 @@
 
     if(mode.value==="9"&&addr===512){
       switches.fill(false);buildBank();
-      result.textContent="512";
+      input.value="512";
       binary.textContent="Binary: not available with 1–9 address switches";
       summary.textContent="Not representable";
       status.className="status warn";

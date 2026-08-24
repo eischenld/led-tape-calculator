@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.3-beta (2026-08-24)
+Version: 0.3.4-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -104,3 +104,10 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Preserved the quick guide, switch-value table, addressing explanation, decoder cautions, and planning link in two collapsed disclosure sections below the tool.
 - Kept the supporting content accessible by keyboard and available in the page for search engines.
 - Preserved all calculator behavior and privacy-conscious analytics from 0.3.2-beta.
+
+## New in 0.3.4-beta
+- Kept all ten DIP switches in one row at every viewport width for direct comparison with a physical decoder.
+- Made the DIP controls, labels, spacing, and switch tracks scale fluidly with the available window width.
+- Combined the entered and calculated DMX address into one shared field.
+- Entering an address updates the switch bank; manually toggling a switch immediately updates the same address field.
+- Preserved the collapsed help sections and privacy-conscious analytics.
