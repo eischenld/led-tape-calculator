@@ -1,8 +1,12 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.1.1-beta (2026-08-23)
+Version: 0.2.0-beta (2026-08-23)
 
 ## What is included
+- `guides.html` — guide library landing page
+- 8 SEO-oriented LED tape guide pages
+- `guide.css` — shared guide styling
+- `sitemap.xml` — custom-domain sitemap
 - `index.html` — calculator app
 - `about.html` — beta/about page
 - `privacy.html` — current no-account/no-project-storage privacy notice
@@ -58,3 +62,17 @@ The calculator is instrumented for these custom events:
 Event properties are intentionally limited to non-identifying product-usage information such as unit system, voltage, tape category/type, and (for IC tape PDF export) calculated pixel-group count. Project names and detailed calculator inputs are not intentionally sent.
 
 The event code checks for `window.zaraz.track()` before sending, so the calculator continues to work normally if analytics is blocked or Zaraz is unavailable.
+
+
+## New in 0.2.0-beta
+Eight public guide pages were added:
+- 12V vs 24V LED Tape
+- Power Supply Sizing
+- Voltage Drop
+- Power Injection
+- RGB vs RGBW vs RGB+CCT
+- WS2811 vs WS2812B vs WS2815
+- LED Tape Wire Size
+- DMX / sACN / Art-Net Control
+
+The homepage now links into the guide library. Canonical URLs and the sitemap use `https://ledtapecalculator.com`.

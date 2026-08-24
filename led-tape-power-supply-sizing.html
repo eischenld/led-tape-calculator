@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Size a Power Supply for LED Tape — LED Tape Calculator</title>
+<meta name="description" content="Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ledtapecalculator.com/led-tape-power-supply-sizing.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/guide.css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Size a Power Supply for LED Tape">
+<meta property="og:description" content="Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.">
+<meta property="og:url" content="https://ledtapecalculator.com/led-tape-power-supply-sizing.html">
+<meta property="og:image" content="https://ledtapecalculator.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Size a Power Supply for LED Tape","description":"Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.","mainEntityOfPage":"https://ledtapecalculator.com/led-tape-power-supply-sizing.html","author":{"@type":"Organization","name":"LED Tape Calculator"},"publisher":{"@type":"Organization","name":"LED Tape Calculator"},"datePublished":"2026-08-23","dateModified":"2026-08-23"}</script>
+</head>
+<body>
+<div class="wrap">
+<header class="sitebar">
+<a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a>
+<nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
+</header>
+
+<div class="breadcrumb"><a href="/">Calculator</a> › <a href="/guides.html">Guides</a> › How to Size a Power Supply for LED Tape</div>
+
+<section class="hero">
+<div class="eyebrow">LED Tape Guide</div>
+<h1>How to Size a Power Supply for LED Tape</h1>
+<p>Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.</p>
+</section>
+
+<div class="quick"><strong>Quick answer:</strong> Multiply the tape's rated watts per meter by the installed length, then add reasonable headroom. A common planning target is to operate a quality constant-voltage supply below its absolute maximum rating rather than sizing it exactly to the calculated load.</div>
+
+<article class="content">
+
+<h2>Step 1: Find the tape's maximum rated power</h2>
+<p>Use the manufacturer's rated maximum power per meter, not an estimate based on how bright you expect to run the tape. RGB, RGBW, and addressable products can have very different maximum loads depending on color mix and control mode.</p>
+<span class="formula">Connected load (W) = Tape watts per meter × Installed meters</span>
+<p>Example: 8 meters of tape rated at 18W/m is a 144W connected load.</p>
+
+<h2>Step 2: Convert wattage to current</h2>
+<span class="formula">Current (A) = Connected load (W) ÷ System voltage (V)</span>
+<p>That same 144W load draws approximately 6A at 24V, 12A at 12V, or 28.8A at 5V. This current matters for feeder conductors, connectors, fuses, terminal blocks, dimmers, and controllers.</p>
+
+<h2>Step 3: Add useful power-supply headroom</h2>
+<p>A supply should not be selected solely because its nameplate rating exactly matches your mathematical load. Headroom helps account for tolerances, future changes, thermal conditions, and the fact that many installations are more reliable when a supply is not operated continuously at its absolute limit.</p>
+<p>The calculator defaults to a 20% sizing margin because it is a practical starting point, but the correct design target depends on the specific power supply, installation temperature, enclosure, duty cycle, and manufacturer instructions.</p>
+<span class="formula">Minimum planning size = Connected load × 1.20 &nbsp; (with a 20% margin)</span>
+<p>For the 144W example, that gives 172.8W. A standard 200W or 240W supply could be considered, depending on the product and installation requirements.</p>
+
+<h2>One big supply or several smaller supplies?</h2>
+<p>Either can work. One supply simplifies coordination, while multiple supplies can shorten low-voltage feeders and reduce voltage drop. On large projects, distribution design can matter more than total wattage.</p>
+<ul>
+<li>Do not parallel the positive outputs of independent supplies unless the manufacturer explicitly allows it.</li>
+<li>Addressable systems may require a common signal reference/ground between controller and pixels; follow the controller and pixel manufacturer's wiring requirements.</li>
+<li>Large low-voltage supplies can deliver very high fault current. Branch protection and appropriate distribution hardware become increasingly important as system size grows.</li>
+</ul>
+
+<h2>Do RGB and RGBW tape change the calculation?</h2>
+<p>The overall formula is the same, but you must also verify the controller or decoder channel ratings. An RGBW decoder has four output channels; the total connected current and the current on each individual channel must both remain within the controller's ratings.</p>
+
+<h2>What about addressable pixels?</h2>
+<p>For pixel tape, use the manufacturer's actual maximum power rating whenever possible. Generic rules such as a fixed number of milliamps per pixel can be useful for rough estimates but vary significantly among chip generations, LED packages, brightness limits, and RGB versus RGBW products.</p>
+
+
+<div class="cta">
+<h3>Run the numbers for your project</h3>
+<p>Use the free calculator to estimate connected load, power-supply size, feeder voltage drop, power injection, controller channels, and addressable pixel groups.</p>
+<a class="button" href="/">Open LED Tape Calculator</a>
+</div>
+
+<h2>Related guides</h2>
+<div class="related"><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide: AWG, Current and Voltage Drop</a><a href="/led-tape-voltage-drop.html">LED Tape Voltage Drop Explained</a><a href="/led-tape-power-injection.html">LED Tape Power Injection: When and How to Add Feeds</a><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a></div>
+
+<h2>Sources & further reading</h2><ul class="sources"><li><a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/powering-neopixels" rel="noopener noreferrer">Adafruit NeoPixel Überguide — Powering NeoPixels</a></li></ul>
+
+<h2>Planning disclaimer</h2>
+<p>This guide is for project planning and education. Verify calculations against the exact tape, power supply, controller, conductor, connectors, and manufacturer instructions. Final installation must comply with applicable electrical requirements.</p>
+</article>
+
+<footer class="footer">LED Tape Calculator • 0.2.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+</div>
+</body>
+</html>

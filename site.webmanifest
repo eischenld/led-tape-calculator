@@ -1,7 +1,6 @@
 {
   "name": "LED Tape Project Calculator",
   "short_name": "LED Tape Calc",
-  "description": "LED tape power, voltage drop, injection, and pixel planning calculator.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0b0f14",

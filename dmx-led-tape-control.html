@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Control LED Tape with DMX, sACN and Art-Net — LED Tape Calculator</title>
+<meta name="description" content="Learn how conventional RGB/RGBW tape and addressable pixel tape connect to DMX, sACN, and Art-Net systems, including decoders, pixel controllers, universes, and channel counts.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ledtapecalculator.com/dmx-led-tape-control.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/guide.css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Control LED Tape with DMX, sACN and Art-Net">
+<meta property="og:description" content="Learn how conventional RGB/RGBW tape and addressable pixel tape connect to DMX, sACN, and Art-Net systems, including decoders, pixel controllers, universes, and channel counts.">
+<meta property="og:url" content="https://ledtapecalculator.com/dmx-led-tape-control.html">
+<meta property="og:image" content="https://ledtapecalculator.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Control LED Tape with DMX, sACN and Art-Net","description":"Learn how conventional RGB/RGBW tape and addressable pixel tape connect to DMX, sACN, and Art-Net systems, including decoders, pixel controllers, universes, and channel counts.","mainEntityOfPage":"https://ledtapecalculator.com/dmx-led-tape-control.html","author":{"@type":"Organization","name":"LED Tape Calculator"},"publisher":{"@type":"Organization","name":"LED Tape Calculator"},"datePublished":"2026-08-23","dateModified":"2026-08-23"}</script>
+</head>
+<body>
+<div class="wrap">
+<header class="sitebar">
+<a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a>
+<nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
+</header>
+
+<div class="breadcrumb"><a href="/">Calculator</a> › <a href="/guides.html">Guides</a> › How to Control LED Tape with DMX, sACN and Art-Net</div>
+
+<section class="hero">
+<div class="eyebrow">LED Tape Guide</div>
+<h1>How to Control LED Tape with DMX, sACN and Art-Net</h1>
+<p>Learn how conventional RGB/RGBW tape and addressable pixel tape connect to DMX, sACN, and Art-Net systems, including decoders, pixel controllers, universes, and channel counts.</p>
+</section>
+
+<div class="quick"><strong>Quick answer:</strong> Conventional constant-voltage tape uses a DMX decoder/dimmer that controls the tape's power channels. Addressable tape uses a pixel controller that converts DMX, Art-Net, or sACN data into the tape's IC/SPI protocol.</div>
+
+<article class="content">
+
+<h2>Conventional RGB/RGBW tape: use a decoder</h2>
+<p>Analog constant-voltage tape does not understand DMX directly. A DMX decoder receives DMX512 and modulates the DC output channels feeding the tape.</p>
+<table><tr><th>Tape</th><th>Typical controlled channels</th></tr>
+<tr><td>Single color</td><td>1</td></tr>
+<tr><td>RGB</td><td>3</td></tr>
+<tr><td>RGBW</td><td>4</td></tr>
+<tr><td>RGB+CCT</td><td>5</td></tr></table>
+<p>The decoder must match the tape voltage and be rated for both total current and per-channel current.</p>
+
+<h2>Addressable tape: use a pixel controller</h2>
+<p>WS2811, WS2812B, WS2815, SK6812, APA102 and similar products use pixel protocols rather than separate PWM power channels for every color across the whole strip. A compatible pixel controller receives lighting data and generates the timing/data format required by the tape.</p>
+<p>Professional pixel controllers commonly accept Art-Net or sACN over Ethernet. ENTTEC, for example, documents controllers that map Art-Net/sACN universes to supported pixel protocols and allow pixel grouping, color order, and universe assignment.</p>
+
+<h2>How many DMX channels do pixels need?</h2>
+<p>At 8-bit control:</p>
+<ul>
+<li>RGB pixel = 3 channels.</li>
+<li>RGBW pixel = 4 channels.</li>
+</ul>
+<p>A DMX universe contains 512 slots. Therefore a universe can carry up to 170 complete RGB pixels (510 channels) or 128 RGBW pixels (512 channels), assuming one DMX channel per color and no extra control parameters.</p>
+
+<h2>What if the tape groups LEDs?</h2>
+<p>If three physical LEDs share one WS2811 driver, they behave as one RGB pixel in the control data. Enter the physical LED density and the number of LEDs per IC/group in the calculator to estimate the number of controllable pixel groups.</p>
+
+<h2>DMX512 vs sACN vs Art-Net</h2>
+<p>DMX512 is the familiar serial lighting-control link. Art-Net and sACN carry DMX-style universe data over Ethernet, making them practical for projects that need many universes or distributed controllers.</p>
+<p>A common signal chain is:</p>
+<span class="formula">Console / software → Ethernet (sACN or Art-Net) → Pixel controller → Pixel data → LED tape</span>
+<p>For analog tape, the last stage is usually a DMX or network-connected constant-voltage decoder instead of a pixel controller.</p>
+
+<h2>Plan universes before installation</h2>
+<p>Pixel projects can consume universes quickly. A 1,000-pixel RGB installation requires 3,000 control channels, or at least six DMX universes. Controller port limits, maximum pixels per port, refresh rate, network traffic, and data-cable distance all become part of the design.</p>
+
+<h2>Keep raw pixel data runs short</h2>
+<p>Many pixel protocols are timing-sensitive and are not intended to travel hundreds of feet directly from a controller to the first pixel. For large projects, use a system designed to transport control data over Ethernet or another robust long-distance link and regenerate the pixel protocol near the tape.</p>
+
+
+<div class="cta">
+<h3>Run the numbers for your project</h3>
+<p>Use the free calculator to estimate connected load, power-supply size, feeder voltage drop, power injection, controller channels, and addressable pixel groups.</p>
+<a class="button" href="/">Open LED Tape Calculator</a>
+</div>
+
+<h2>Related guides</h2>
+<div class="related"><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a><a href="/ws2811-vs-ws2812b-vs-ws2815.html">WS2811 vs WS2812B vs WS2815 Addressable LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/led-tape-power-injection.html">LED Tape Power Injection: When and How to Add Feeds</a></div>
+
+<h2>Sources & further reading</h2><ul class="sources"><li><a href="https://support.enttec.com/user-manuals/elm" rel="noopener noreferrer">ENTTEC ELM manual — LED controllers and Art-Net/sACN signal flow</a></li><li><a href="https://support.enttec.com/user-manuals/pixelator-mini-mk2" rel="noopener noreferrer">ENTTEC Pixelator Mini Mk2 manual — universes, pixel grouping and sACN/Art-Net</a></li><li><a href="https://support.enttec.com/dmx/edmx-art-net-sacn-networking/art-net-vs-sacn-which-should-you-use" rel="noopener noreferrer">ENTTEC — Art-Net vs sACN</a></li></ul>
+
+<h2>Planning disclaimer</h2>
+<p>This guide is for project planning and education. Verify calculations against the exact tape, power supply, controller, conductor, connectors, and manufacturer instructions. Final installation must comply with applicable electrical requirements.</p>
+</article>
+
+<footer class="footer">LED Tape Calculator • 0.2.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+</div>
+</body>
+</html>

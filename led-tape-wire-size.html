@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LED Tape Wire Size Guide: AWG, Current and Voltage Drop — LED Tape Calculator</title>
+<meta name="description" content="Choose feeder wire for low-voltage LED tape using load current, one-way distance, AWG resistance, voltage-drop targets, connectors, and branch protection.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ledtapecalculator.com/led-tape-wire-size.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/guide.css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LED Tape Wire Size Guide: AWG, Current and Voltage Drop">
+<meta property="og:description" content="Choose feeder wire for low-voltage LED tape using load current, one-way distance, AWG resistance, voltage-drop targets, connectors, and branch protection.">
+<meta property="og:url" content="https://ledtapecalculator.com/led-tape-wire-size.html">
+<meta property="og:image" content="https://ledtapecalculator.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"LED Tape Wire Size Guide: AWG, Current and Voltage Drop","description":"Choose feeder wire for low-voltage LED tape using load current, one-way distance, AWG resistance, voltage-drop targets, connectors, and branch protection.","mainEntityOfPage":"https://ledtapecalculator.com/led-tape-wire-size.html","author":{"@type":"Organization","name":"LED Tape Calculator"},"publisher":{"@type":"Organization","name":"LED Tape Calculator"},"datePublished":"2026-08-23","dateModified":"2026-08-23"}</script>
+</head>
+<body>
+<div class="wrap">
+<header class="sitebar">
+<a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a>
+<nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
+</header>
+
+<div class="breadcrumb"><a href="/">Calculator</a> › <a href="/guides.html">Guides</a> › LED Tape Wire Size Guide: AWG, Current and Voltage Drop</div>
+
+<section class="hero">
+<div class="eyebrow">LED Tape Guide</div>
+<h1>LED Tape Wire Size Guide: AWG, Current and Voltage Drop</h1>
+<p>Choose feeder wire for low-voltage LED tape using load current, one-way distance, AWG resistance, voltage-drop targets, connectors, and branch protection.</p>
+</section>
+
+<div class="quick"><strong>Quick answer:</strong> Wire size for LED tape is not based on wattage alone. Convert the load to amps, use the full round-trip conductor length for voltage drop, and verify that the wire, terminals, connectors, and protection are suitable for the current and installation.</div>
+
+<article class="content">
+
+<h2>Start with current, not watts</h2>
+<span class="formula">Current (A) = Power (W) ÷ Voltage (V)</span>
+<p>A 240W project is 10A at 24V, 20A at 12V, and 48A at 5V. That is why low-voltage high-power LED installations can require surprisingly substantial distribution conductors.</p>
+
+<h2>Approximate copper resistance by AWG</h2>
+<p>The calculator currently uses the following approximate resistance values for copper conductors:</p>
+<table><tr><th>AWG</th><th>Approx. resistance (Ω / 1000 ft)</th></tr>
+<tr><td>18</td><td>6.385</td></tr>
+<tr><td>16</td><td>4.016</td></tr>
+<tr><td>14</td><td>2.525</td></tr>
+<tr><td>12</td><td>1.588</td></tr>
+<tr><td>10</td><td>0.999</td></tr></table>
+<p>Actual conductor construction, temperature, material, and product tolerances affect resistance. Use manufacturer data when precision matters.</p>
+
+<h2>Remember the return conductor</h2>
+<p>If the power supply is 30 ft from the tape, current travels approximately 30 ft out and 30 ft back. For a simple two-conductor feeder, use about 60 ft of conductor in the resistance calculation.</p>
+<span class="formula">Circuit resistance = Ω/1000 ft × (2 × one-way feet) ÷ 1000</span>
+<span class="formula">Voltage drop = Load current × Circuit resistance</span>
+
+<h2>Voltage drop and ampacity are separate checks</h2>
+<p>A conductor may be capable of carrying the current without overheating but still create too much voltage drop for a 5V or 12V LED load. Conversely, choosing a very large wire only for low voltage drop does not automatically make every connector, terminal, fuse, or tape lead suitable for the same current.</p>
+
+<h2>When to use multiple home runs</h2>
+<p>At higher currents, splitting one large load into several protected home runs can be cleaner than trying to carry the entire project current through one long feeder. This also makes power injection easier and can improve troubleshooting and serviceability.</p>
+
+<h2>Do not overlook the small parts</h2>
+<ul>
+<li>Connector current ratings.</li>
+<li>Decoder/controller terminals.</li>
+<li>Factory pigtail wire size on the tape.</li>
+<li>Fuse or branch-protection sizing.</li>
+<li>Ambient temperature and bundling.</li>
+<li>Required cable listing and installation method.</li>
+</ul>
+
+<div class="warning"><p><strong>Important:</strong> this guide is for planning low-voltage LED distribution, not for determining code compliance or mains-side branch-circuit conductor sizing. Follow applicable electrical requirements and listed equipment instructions.</p></div>
+
+
+<div class="cta">
+<h3>Run the numbers for your project</h3>
+<p>Use the free calculator to estimate connected load, power-supply size, feeder voltage drop, power injection, controller channels, and addressable pixel groups.</p>
+<a class="button" href="/">Open LED Tape Calculator</a>
+</div>
+
+<h2>Related guides</h2>
+<div class="related"><a href="/led-tape-voltage-drop.html">LED Tape Voltage Drop Explained</a><a href="/led-tape-power-injection.html">LED Tape Power Injection: When and How to Add Feeds</a><a href="/12v-vs-24v-led-tape.html">12V vs 24V LED Tape: Which Voltage Should You Use?</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a></div>
+
+
+
+<h2>Planning disclaimer</h2>
+<p>This guide is for project planning and education. Verify calculations against the exact tape, power supply, controller, conductor, connectors, and manufacturer instructions. Final installation must comply with applicable electrical requirements.</p>
+</article>
+
+<footer class="footer">LED Tape Calculator • 0.2.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+</div>
+</body>
+</html>

@@ -6,7 +6,7 @@
 <meta name="description" content="Free LED tape project calculator for power supply sizing, current draw, feeder voltage drop, power injection, RGB/RGBW, and addressable IC tape planning.">
 <meta name="theme-color" content="#0b0f14">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<link rel="canonical" href="/">
+<link rel="canonical" href="https://ledtapecalculator.com/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
@@ -122,6 +122,16 @@
   .site-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
   .site-links a{color:#8fa6bb;text-decoration:none}
   .site-links a:hover,.site-links a:focus{text-decoration:underline;color:#cfe7ff}
+  .guide-section{margin-top:22px}
+  .guide-section h2{font-size:22px;margin:0 0 6px}
+  .guide-section>p{color:var(--muted);margin:0 0 14px;line-height:1.5}
+  .guide-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .guide-card-home{display:block;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:14px;background:linear-gradient(180deg,var(--panel),#0f1620)}
+  .guide-card-home strong{display:block;color:var(--text);font-size:13px;line-height:1.35;margin-bottom:5px}
+  .guide-card-home span{color:var(--muted);font-size:11px;line-height:1.35}
+  .guide-card-home:hover{border-color:#3e5870;transform:translateY(-1px)}
+  .guide-more{margin-top:11px;text-align:right}
+  .guide-more a{color:#8ed3ff;font-size:13px;text-decoration:none}
   .version{display:inline-block;margin-left:6px;padding:2px 7px;border:1px solid #26384a;border-radius:999px;color:#8298ac}
   button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #8ed3ff;outline-offset:2px}
 
@@ -131,9 +141,11 @@
   @media(max-width:850px){
     .grid{grid-template-columns:1fr}
     .hero h2{font-size:29px}
+    .guide-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
   @media(max-width:540px){
     .form-grid,.results{grid-template-columns:1fr}
+    .guide-cards{grid-template-columns:1fr}
     .wide{grid-column:auto}
     .topbar{align-items:flex-start}
     .pill{display:none}
@@ -323,10 +335,17 @@
     </aside>
   </main>
 
+  <section class="guide-section">
+    <h2>LED Tape Guides</h2>
+    <p>Learn the design choices behind the calculator—from voltage and wire sizing to pixels and DMX control.</p>
+    <div class="guide-cards"><a class="guide-card-home" href="/12v-vs-24v-led-tape.html"><strong>12V vs 24V LED Tape: Which Voltage Should You Use?</strong><span>Compare 12V and 24V LED tape for current draw, voltage drop, maximum run length, cut intervals, power supplies, and real-world installation.</span></a><a class="guide-card-home" href="/led-tape-power-supply-sizing.html"><strong>How to Size a Power Supply for LED Tape</strong><span>Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.</span></a><a class="guide-card-home" href="/led-tape-voltage-drop.html"><strong>LED Tape Voltage Drop Explained</strong><span>Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.</span></a><a class="guide-card-home" href="/led-tape-power-injection.html"><strong>LED Tape Power Injection: When and How to Add Feeds</strong><span>Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.</span></a></div>
+    <div class="guide-more"><a href="/guides.html">View all 8 guides →</a></div>
+  </section>
+
   <div class="footer">
     Beta planning tool only. Calculations are estimates based on user-entered manufacturer data. Final conductor sizing, overcurrent protection, enclosure requirements, listing requirements, Class 2 limitations, and installation methods must comply with applicable codes and manufacturer instructions.
-    <span class="version">v0.1.1-beta</span>
-    <div class="site-links"><a id="feedbackLink" href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a></div>
+    <span class="version">v0.2.0-beta</span>
+    <div class="site-links"><a href="/guides.html">Guides</a><a id="feedbackLink" href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a></div>
   </div>
 </div>
 

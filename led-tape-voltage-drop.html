@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LED Tape Voltage Drop Explained — LED Tape Calculator</title>
+<meta name="description" content="Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ledtapecalculator.com/led-tape-voltage-drop.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/guide.css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LED Tape Voltage Drop Explained">
+<meta property="og:description" content="Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.">
+<meta property="og:url" content="https://ledtapecalculator.com/led-tape-voltage-drop.html">
+<meta property="og:image" content="https://ledtapecalculator.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"LED Tape Voltage Drop Explained","description":"Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.","mainEntityOfPage":"https://ledtapecalculator.com/led-tape-voltage-drop.html","author":{"@type":"Organization","name":"LED Tape Calculator"},"publisher":{"@type":"Organization","name":"LED Tape Calculator"},"datePublished":"2026-08-23","dateModified":"2026-08-23"}</script>
+</head>
+<body>
+<div class="wrap">
+<header class="sitebar">
+<a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a>
+<nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
+</header>
+
+<div class="breadcrumb"><a href="/">Calculator</a> › <a href="/guides.html">Guides</a> › LED Tape Voltage Drop Explained</div>
+
+<section class="hero">
+<div class="eyebrow">LED Tape Guide</div>
+<h1>LED Tape Voltage Drop Explained</h1>
+<p>Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.</p>
+</section>
+
+<div class="quick"><strong>Quick answer:</strong> Voltage drop is the voltage lost across resistance while current flows. In LED tape projects there are two separate places to think about it: the feeder wire between the power supply and tape, and the thin copper conductors built into the tape itself.</div>
+
+<article class="content">
+
+<h2>The feeder-wire calculation</h2>
+<p>For a simple DC feeder, Ohm's law gives the basic relationship:</p>
+<span class="formula">Voltage drop (V) = Current (A) × Circuit resistance (Ω)</span>
+<p>The circuit resistance includes the outgoing conductor and the return conductor. That is why a 10-meter one-way feeder represents roughly 20 meters of conductor in the voltage-drop calculation.</p>
+
+<h2>Why wire size matters</h2>
+<p>Larger AWG conductors have lower resistance. For the same current and distance, moving from 18 AWG to 14 AWG can make a major difference in delivered voltage. Lower-voltage systems are especially sensitive because the same lost voltage represents a larger percentage of the supply voltage.</p>
+
+<h2>Why 24V usually drops less than 12V</h2>
+<p>If the load wattage is the same, doubling system voltage halves current. Since voltage drop across the feeder is proportional to current, the higher-voltage system generally loses fewer volts in the same conductor.</p>
+
+<h2>The strip itself also has voltage drop</h2>
+<p>A feeder calculation does not tell the whole story. Once power enters the tape, current travels through relatively thin copper traces. The first part of the strip carries current for everything downstream; farther along the strip, less current remains. This makes the strip's internal voltage-drop pattern more complicated than a single feeder calculation.</p>
+<p>Symptoms can include:</p>
+<ul>
+<li>Lower brightness at the far end.</li>
+<li>RGB tape becoming warmer or redder at the end when white is commanded.</li>
+<li>Addressable pixels showing color errors or resets under high load.</li>
+<li>A project that works at low brightness but becomes unstable at full output.</li>
+</ul>
+
+<h2>What percentage should you target?</h2>
+<p>There is no universal percentage that guarantees a good LED-tape installation because different products have different operating ranges and visual sensitivity. A 3% feeder-drop target is a useful conservative planning value, but tape-internal drop and manufacturer limits still need to be considered.</p>
+
+<h2>Ways to reduce voltage drop</h2>
+<ul>
+<li>Use a higher system voltage when the product allows it.</li>
+<li>Increase feeder conductor size.</li>
+<li>Move the power supply closer to the load.</li>
+<li>Use multiple home runs instead of one heavily loaded feeder.</li>
+<li>Inject power at additional points along the tape.</li>
+<li>Split a long project into independently fed sections.</li>
+</ul>
+
+<div class="note"><p><strong>Calculator note:</strong> the current beta calculator estimates feeder-wire voltage drop. The manufacturer maximum-run field and injection estimate are separate because the exact resistance of the tape's internal copper is product-specific.</p></div>
+
+
+<div class="cta">
+<h3>Run the numbers for your project</h3>
+<p>Use the free calculator to estimate connected load, power-supply size, feeder voltage drop, power injection, controller channels, and addressable pixel groups.</p>
+<a class="button" href="/">Open LED Tape Calculator</a>
+</div>
+
+<h2>Related guides</h2>
+<div class="related"><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide: AWG, Current and Voltage Drop</a><a href="/led-tape-power-injection.html">LED Tape Power Injection: When and How to Add Feeds</a><a href="/12v-vs-24v-led-tape.html">12V vs 24V LED Tape: Which Voltage Should You Use?</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a></div>
+
+<h2>Sources & further reading</h2><ul class="sources"><li><a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/powering-neopixels" rel="noopener noreferrer">Adafruit NeoPixel Überguide — Powering and distributing power</a></li></ul>
+
+<h2>Planning disclaimer</h2>
+<p>This guide is for project planning and education. Verify calculations against the exact tape, power supply, controller, conductor, connectors, and manufacturer instructions. Final installation must comply with applicable electrical requirements.</p>
+</article>
+
+<footer class="footer">LED Tape Calculator • 0.2.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+</div>
+</body>
+</html>

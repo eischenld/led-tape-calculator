@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LED Tape Power Injection: When and How to Add Feeds — LED Tape Calculator</title>
+<meta name="description" content="Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ledtapecalculator.com/led-tape-power-injection.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/guide.css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LED Tape Power Injection: When and How to Add Feeds">
+<meta property="og:description" content="Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.">
+<meta property="og:url" content="https://ledtapecalculator.com/led-tape-power-injection.html">
+<meta property="og:image" content="https://ledtapecalculator.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"LED Tape Power Injection: When and How to Add Feeds","description":"Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.","mainEntityOfPage":"https://ledtapecalculator.com/led-tape-power-injection.html","author":{"@type":"Organization","name":"LED Tape Calculator"},"publisher":{"@type":"Organization","name":"LED Tape Calculator"},"datePublished":"2026-08-23","dateModified":"2026-08-23"}</script>
+</head>
+<body>
+<div class="wrap">
+<header class="sitebar">
+<a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a>
+<nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
+</header>
+
+<div class="breadcrumb"><a href="/">Calculator</a> › <a href="/guides.html">Guides</a> › LED Tape Power Injection: When and How to Add Feeds</div>
+
+<section class="hero">
+<div class="eyebrow">LED Tape Guide</div>
+<h1>LED Tape Power Injection: When and How to Add Feeds</h1>
+<p>Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.</p>
+</section>
+
+<div class="quick"><strong>Quick answer:</strong> Power injection means adding additional +V and return connections along a tape run so current does not have to travel through the strip's thin copper traces for the entire distance.</div>
+
+<article class="content">
+
+<h2>Why power injection is needed</h2>
+<p>Long tape runs can suffer voltage drop even when the feeder from the power supply is perfectly sized. The tape itself is a conductor. As current travels through those thin traces, voltage gradually falls.</p>
+<p>Injection shortens the electrical distance between each section of tape and a low-resistance power source.</p>
+
+<h2>Common injection layouts</h2>
+<table><tr><th>Layout</th><th>When it is useful</th></tr>
+<tr><td>Feed at the beginning only</td><td>Short runs within the manufacturer's recommended maximum.</td></tr>
+<tr><td>Feed both ends</td><td>Moderate runs where the tape and manufacturer permit end feeding.</td></tr>
+<tr><td>Beginning + middle + end</td><td>Longer runs or higher-density products.</td></tr>
+<tr><td>Multiple home-run feeds</td><td>Professional installations where predictable voltage and serviceability matter.</td></tr></table>
+
+<h2>How far apart should feeds be?</h2>
+<p>There is no one correct spacing. Tape voltage, watts per meter, copper weight, LED density, brightness, and allowable color/brightness variation all affect the answer. Start with the manufacturer's maximum-run recommendation and verify the farthest point under worst-case output.</p>
+<p>For addressable pixels, aggressive injection is often necessary because high-density 5V products combine low voltage with high current. Adafruit's NeoPixel guidance recommends distributing power at multiple points on larger installations rather than treating the strip as one long power bus.</p>
+
+<h2>Injection does not mean tying every power supply together</h2>
+<p>If one supply feeds several injection points, those points are normally branches from the same DC source. If several separate supplies are used, be cautious: independent positive outputs generally should not be tied together unless the supply manufacturer specifically supports parallel operation.</p>
+<p>Pixel-data systems often require the controller and pixel power system to share an appropriate signal reference/ground. Follow the pixel-controller manufacturer's wiring diagram rather than improvising the relationship between supplies.</p>
+
+<h2>Think about branch protection</h2>
+<p>A large central supply may be capable of delivering much more current than a small tape lead or connector can safely carry under a fault. Professional distribution often uses separately protected branches sized for the downstream conductor and load. Applicable electrical requirements, power-supply listing, Class 2 limitations, and enclosure rules depend on the installation.</p>
+
+<h2>Practical commissioning test</h2>
+<ol>
+<li>Measure supply output at the power supply.</li>
+<li>Command the tape to its highest expected load.</li>
+<li>Measure voltage at each feed point and at the electrically farthest points.</li>
+<li>Look for visible brightness/color changes.</li>
+<li>Add or relocate feeds if the measured and visual results are not acceptable.</li>
+</ol>
+
+
+<div class="cta">
+<h3>Run the numbers for your project</h3>
+<p>Use the free calculator to estimate connected load, power-supply size, feeder voltage drop, power injection, controller channels, and addressable pixel groups.</p>
+<a class="button" href="/">Open LED Tape Calculator</a>
+</div>
+
+<h2>Related guides</h2>
+<div class="related"><a href="/led-tape-voltage-drop.html">LED Tape Voltage Drop Explained</a><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide: AWG, Current and Voltage Drop</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/ws2811-vs-ws2812b-vs-ws2815.html">WS2811 vs WS2812B vs WS2815 Addressable LED Tape</a></div>
+
+<h2>Sources & further reading</h2><ul class="sources"><li><a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/powering-neopixels" rel="noopener noreferrer">Adafruit NeoPixel Überguide — Powering NeoPixels</a></li><li><a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/best-practices" rel="noopener noreferrer">Adafruit NeoPixel Überguide — Best Practices</a></li></ul>
+
+<h2>Planning disclaimer</h2>
+<p>This guide is for project planning and education. Verify calculations against the exact tape, power supply, controller, conductor, connectors, and manufacturer instructions. Final installation must comply with applicable electrical requirements.</p>
+</article>
+
+<footer class="footer">LED Tape Calculator • 0.2.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+</div>
+</body>
+</html>
