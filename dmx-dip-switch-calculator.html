@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DMX DIP Switch Calculator — Set DMX Addresses 1–512</title>
+<meta name="description" content="Free DMX DIP switch calculator. Enter a DMX start address to see the binary DIP switch settings, or toggle switches to calculate the address.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ledtapecalculator.com/dmx-dip-switch-calculator.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/guide.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DMX DIP Switch Calculator">
+<meta property="og:description" content="Enter a DMX address and instantly see which DIP switches should be ON.">
+<meta property="og:url" content="https://ledtapecalculator.com/dmx-dip-switch-calculator.html">
+<meta property="og:image" content="https://ledtapecalculator.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+.tool-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:18px;align-items:start}
+.tool-panel{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel),#0f1620);padding:20px;box-shadow:var(--shadow)}
+.tool-panel h2{margin:0 0 16px;font-size:21px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px;font-weight:700}
+.field input,.field select{width:100%;background:#0b1119;color:var(--text);border:1px solid #2b3b4d;border-radius:11px;padding:12px;font-size:16px;outline:none}
+.field input:focus,.field select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(98,182,255,.11)}
+.address-output{border:1px solid var(--line);border-radius:14px;padding:16px;background:#0b1119;margin-top:12px}
+.address-output span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.07em}
+.address-output strong{display:block;font-size:38px;line-height:1.1;margin-top:4px}
+.binary{font-family:Consolas,Monaco,monospace;color:#8ed3ff;font-size:13px;margin-top:5px;word-break:break-all}
+.dip-board{border:1px solid var(--line);border-radius:16px;padding:16px;background:#090e14}
+.dip-title{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:12px}
+.dip-title strong{font-size:14px}.dip-title span{font-size:11px;color:var(--muted)}
+.dips{display:grid;grid-template-columns:repeat(10,minmax(54px,1fr));gap:8px}
+.dip{min-width:0}
+.dip button{width:100%;min-height:118px;padding:7px 5px;border-radius:10px;border:1px solid #33465a;background:#111b26;color:var(--text);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:5px}
+.dip button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.dip button[aria-pressed="true"]{border-color:rgba(88,214,141,.75);background:rgba(88,214,141,.13)}
+.dip button.function{border-style:dashed}.dip button.function[disabled]{opacity:.62;cursor:not-allowed}
+.dip-num{font-size:11px;font-weight:800}
+.dip-track{width:25px;height:50px;border-radius:5px;background:#05080c;border:1px solid #405064;padding:3px;display:flex;align-items:flex-end}
+.dip-thumb{width:100%;height:20px;border-radius:3px;background:#71869a;transition:transform .15s ease,background .15s ease}
+.dip button[aria-pressed="true"] .dip-thumb{transform:translateY(-23px);background:var(--accent)}
+.dip-weight{font-size:10px;color:var(--muted);white-space:nowrap}
+.on-label,.off-label{font-size:8px;color:#6f8294;line-height:1}
+.status{margin-top:14px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#101923;color:#d8e5f1;line-height:1.48;font-size:13px}
+.status.good{border-color:rgba(88,214,141,.45);background:rgba(88,214,141,.07)}
+.status.warn{border-color:rgba(255,204,102,.5);background:rgba(255,204,102,.08)}
+.switch-summary{margin-top:14px;border-top:1px solid var(--line);padding-top:13px;font-size:14px;color:var(--muted)}
+.switch-summary strong{color:var(--text)}
+.bit-table{margin-top:18px}.mini-note{font-size:12px;color:var(--muted);line-height:1.5}
+@media(max-width:780px){.tool-grid{grid-template-columns:1fr}.dips{grid-template-columns:repeat(5,minmax(52px,1fr))}}
+@media(max-width:420px){.dips{grid-template-columns:repeat(5,minmax(46px,1fr));gap:6px}.dip button{min-height:108px;padding:6px 3px}.dip-track{width:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="sitebar">
+<a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a>
+<nav class="nav"><a href="/">LED Calculator</a><a href="/dmx-dip-switch-calculator.html">DMX DIP</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
+</header>
+<div class="breadcrumb"><a href="/">Calculator</a> › DMX DIP Switch Calculator</div>
+
+<section class="hero">
+<div class="eyebrow">Free DMX Tool</div>
+<h1>DMX DIP Switch Calculator</h1>
+<p>Enter a DMX start address to see the required binary DIP switches—or click the switches yourself and instantly calculate the resulting address.</p>
+</section>
+
+<div class="quick"><strong>Typical decoder layout:</strong> switches 1–9 represent 1, 2, 4, 8, 16, 32, 64, 128 and 256. Switch 10 is often a test, mode, termination or other manufacturer-specific function—not part of the DMX address. Always check the decoder manual.</div>
+
+<section style="margin-top:18px">
+<div class="tool-grid">
+<div class="tool-panel">
+<h2>DMX Start Address</h2>
+<div class="field">
+<label for="dmxAddress">Address (1–512)</label>
+<input id="dmxAddress" type="number" inputmode="numeric" min="1" max="512" step="1" value="1">
+</div>
+<div class="field">
+<label for="dipMode">Decoder DIP layout</label>
+<select id="dipMode">
+<option value="9" selected>Switches 1–9 = address; switch 10 = function</option>
+<option value="10">Switches 1–10 = address (switch 10 = 512)</option>
+</select>
+</div>
+<div class="address-output" aria-live="polite">
+<span>Calculated address</span>
+<strong id="addressResult">1</strong>
+<div class="binary" id="binaryResult">Binary: 000000001</div>
+</div>
+<div id="status" class="status good">DMX address 1: switch 1 ON.</div>
+<div class="switch-summary">Switches ON: <strong id="switchSummary">1</strong></div>
+<p class="mini-note">The physical ON direction varies by decoder. Use the printed <strong>ON</strong> marking next to the actual DIP bank rather than assuming up or down.</p>
+</div>
+
+<div class="tool-panel">
+<div class="dip-title"><strong>Interactive DIP bank</strong><span>Click switches to calculate the address</span></div>
+<div class="dip-board"><div class="dips" id="dipBank"></div></div>
+<table class="bit-table">
+<thead><tr><th>Switch</th><th>Address value</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>1</td><td>Binary address bit</td></tr>
+<tr><td>2</td><td>2</td><td>Binary address bit</td></tr>
+<tr><td>3</td><td>4</td><td>Binary address bit</td></tr>
+<tr><td>4</td><td>8</td><td>Binary address bit</td></tr>
+<tr><td>5</td><td>16</td><td>Binary address bit</td></tr>
+<tr><td>6</td><td>32</td><td>Binary address bit</td></tr>
+<tr><td>7</td><td>64</td><td>Binary address bit</td></tr>
+<tr><td>8</td><td>128</td><td>Binary address bit</td></tr>
+<tr><td>9</td><td>256</td><td>Binary address bit</td></tr>
+<tr><td>10</td><td>Usually not address</td><td>Manufacturer-specific on many decoders; some devices use it as 512</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<article class="content" style="margin-top:20px">
+<h2>How DMX DIP switch addressing works</h2>
+<p>Traditional DMX DIP addressing uses binary addition. Each switch has a value that doubles from the previous switch. Turn on the switches whose values add up to the desired DMX start address.</p>
+<p>For example, DMX address <strong>137</strong> is:</p>
+<span class="formula">128 + 8 + 1 = 137</span>
+<p>So switches <strong>8, 4 and 1</strong> are ON.</p>
+
+<h2>Why switch 10 is different</h2>
+<p>A nine-bit binary address bank can represent values from 0 through 511. Since usable DMX start addresses normally begin at 1, switches 1–9 cover addresses 1–511. Many compact LED decoders therefore use DIP 10 for a separate feature such as standalone mode, test mode, speed, termination or a mode selector.</p>
+<p>Some manufacturers instead use switch 10 as a 512 address bit. Select that layout above only when the decoder documentation explicitly says DIP 10 has a value of 512.</p>
+
+<div class="warning"><p><strong>Address 512:</strong> a decoder using only switches 1–9 for addressing cannot represent start address 512 with standard binary DIP addressing. Check whether the device uses switch 10 as 512, provides another programming method, or simply does not support 512 as a DIP-set start address.</p></div>
+
+<h2>DMX decoder channel count still matters</h2>
+<p>The start address is only the first slot a decoder listens to. A 3-channel RGB decoder set to address 101 normally uses 101–103. A 4-channel RGBW decoder set to 101 normally uses 101–104. Make sure the complete channel footprint stays inside the intended universe.</p>
+
+<div class="cta">
+<h3>Planning the LED tape installation too?</h3>
+<p>Use the LED Tape Project Calculator for power-supply sizing, feeder voltage drop, injection planning, controller sizing and pixel calculations.</p>
+<a class="button" href="/">Open LED Tape Calculator</a>
+</div>
+
+<h2>Related guides</h2>
+<div class="related">
+<a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a>
+<a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a>
+<a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a>
+<a href="/led-tape-wire-size.html">LED Tape Wire Size Guide</a>
+</div>
+</article>
+
+<footer class="footer">LED Tape Calculator • 0.3.0-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+</div>
+
+<script>
+(()=>{
+  const input=document.getElementById("dmxAddress");
+  const mode=document.getElementById("dipMode");
+  const bank=document.getElementById("dipBank");
+  const result=document.getElementById("addressResult");
+  const binary=document.getElementById("binaryResult");
+  const status=document.getElementById("status");
+  const summary=document.getElementById("switchSummary");
+  const switches=Array(10).fill(false);
+  const weights=[1,2,4,8,16,32,64,128,256,512];
+
+  function trackEvent(name,properties={}){
+    try{if(window.zaraz&&typeof window.zaraz.track==="function")window.zaraz.track(name,properties)}catch(e){}
+  }
+
+  function buildBank(){
+    bank.innerHTML="";
+    for(let i=0;i<10;i++){
+      const wrap=document.createElement("div");
+      wrap.className="dip";
+      const btn=document.createElement("button");
+      btn.type="button";
+      const isFunction=i===9&&mode.value==="9";
+      btn.dataset.index=String(i);
+      btn.setAttribute("aria-pressed",switches[i]?"true":"false");
+      if(isFunction){
+        btn.classList.add("function");
+        btn.disabled=true;
+        btn.setAttribute("aria-label","DIP switch 10 is manufacturer-specific in this layout");
+      }else{
+        btn.setAttribute("aria-label",`DIP switch ${i+1}, value ${weights[i]}, ${switches[i]?"on":"off"}`);
+      }
+      btn.innerHTML=`<span class="on-label">ON</span><span class="dip-num">${i+1}</span><span class="dip-track"><span class="dip-thumb"></span></span><span class="off-label">OFF</span><span class="dip-weight">${isFunction?"FUNC":weights[i]}</span>`;
+      btn.addEventListener("click",()=>{switches[i]=!switches[i];updateFromSwitches(true)});
+      wrap.appendChild(btn);bank.appendChild(wrap);
+    }
+  }
+
+  function setSwitchesFromAddress(addr){
+    switches.fill(false);
+    let remaining=addr;
+    const last=mode.value==="10"?9:8;
+    for(let i=last;i>=0;i--){
+      if(remaining>=weights[i]){switches[i]=true;remaining-=weights[i]}
+    }
+    if(mode.value==="9")switches[9]=false;
+  }
+
+  function updateBankState(){
+    [...bank.querySelectorAll("button")].forEach((btn,i)=>{
+      const isFunction=i===9&&mode.value==="9";
+      btn.setAttribute("aria-pressed",(!isFunction&&switches[i])?"true":"false");
+      if(!isFunction)btn.setAttribute("aria-label",`DIP switch ${i+1}, value ${weights[i]}, ${switches[i]?"on":"off"}`);
+    });
+  }
+
+  function addressFromSwitches(){
+    const last=mode.value==="10"?9:8;
+    return switches.reduce((sum,on,i)=>sum+(on&&i<=last?weights[i]:0),0);
+  }
+
+  function render(addr){
+    const bitCount=mode.value==="10"?10:9;
+    result.textContent=String(addr);
+    binary.textContent="Binary: "+addr.toString(2).padStart(bitCount,"0");
+    const active=[];
+    const last=mode.value==="10"?9:8;
+    for(let i=0;i<=last;i++)if(switches[i])active.push(i+1);
+    summary.textContent=active.length?active.join(", "):"None";
+    status.className="status";
+    if(addr<1){
+      status.classList.add("warn");
+      status.textContent="All address switches are OFF, which calculates to 0. DMX start address 0 is not normally usable.";
+    }else if(addr>512){
+      status.classList.add("warn");
+      status.textContent="This switch combination is outside the DMX 1–512 address range.";
+    }else{
+      status.classList.add("good");
+      status.textContent=`DMX address ${addr}: ${active.length?"switch"+(active.length>1?"es ":" ")+active.join(", ")+" ON.":"no address switches ON."}`;
+    }
+    updateBankState();
+  }
+
+  function updateFromInput(track=false){
+    let addr=Number.parseInt(input.value,10);
+    if(!Number.isFinite(addr))addr=1;
+    addr=Math.min(512,Math.max(1,addr));
+    input.value=String(addr);
+
+    if(mode.value==="9"&&addr===512){
+      switches.fill(false);buildBank();
+      result.textContent="512";
+      binary.textContent="Binary: not available with 1–9 address switches";
+      summary.textContent="Not representable";
+      status.className="status warn";
+      status.textContent="Address 512 cannot be represented by standard switches 1–9. Check the decoder manual or select the 10-address-switch layout only if DIP 10 is explicitly defined as 512.";
+      if(track)trackEvent("dmx_dip_address_calculated",{address:"512",layout:"9_address_switches",representable:"false"});
+      return;
+    }
+
+    setSwitchesFromAddress(addr);buildBank();render(addr);
+    if(track)trackEvent("dmx_dip_address_calculated",{address:String(addr),layout:mode.value==="10"?"10_address_switches":"9_address_switches",representable:"true"});
+  }
+
+  function updateFromSwitches(track=false){
+    const addr=addressFromSwitches();
+    input.value=String(addr);
+    render(addr);
+    if(track)trackEvent("dmx_dip_switch_toggled",{address:String(addr),layout:mode.value==="10"?"10_address_switches":"9_address_switches"});
+  }
+
+  input.addEventListener("input",()=>updateFromInput(false));
+  input.addEventListener("change",()=>updateFromInput(true));
+  mode.addEventListener("change",()=>{
+    const current=Math.min(512,Math.max(1,Number.parseInt(input.value,10)||1));
+    input.value=String(current);
+    updateFromInput(true);
+    trackEvent("dmx_dip_layout_changed",{layout:mode.value==="10"?"10_address_switches":"9_address_switches"});
+  });
+
+  buildBank();updateFromInput(false);
+})();
+</script>
+</body>
+</html>

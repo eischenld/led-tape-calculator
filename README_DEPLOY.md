@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.2.0-beta (2026-08-23)
+Version: 0.3.0-beta (2026-08-23)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -66,7 +66,7 @@ The event code checks for `window.zaraz.track()` before sending, so the calculat
 
 ## New in 0.2.0-beta
 Eight public guide pages were added:
-- 12V vs 24V LED Tape
+- 5V vs 12V vs 24V LED Tape
 - Power Supply Sizing
 - Voltage Drop
 - Power Injection
@@ -76,3 +76,12 @@ Eight public guide pages were added:
 - DMX / sACN / Art-Net Control
 
 The homepage now links into the guide library. Canonical URLs and the sitemap use `https://ledtapecalculator.com`.
+
+\n## New in 0.3.0-beta
+- Added interactive DMX DIP Switch Calculator.
+- Converts DMX start addresses to DIP switch settings and vice versa.
+- Defaults to switches 1–9 as address bits; switch 10 is manufacturer-specific.
+- Optional switch-10-as-512 layout when the decoder manual specifies it.
+- Added Zaraz events for DMX DIP usage.
+- Expanded voltage guide to 5V vs 12V vs 24V.
+- Added a 301 redirect from the old 12V-vs-24V guide URL.

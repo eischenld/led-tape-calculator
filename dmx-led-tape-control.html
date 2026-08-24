@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -6,7 +7,7 @@
 <meta name="description" content="Learn how conventional RGB/RGBW tape and addressable pixel tape connect to DMX, sACN, and Art-Net systems, including decoders, pixel controllers, universes, and channel counts.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://ledtapecalculator.com/dmx-led-tape-control.html">
-<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/guide.css">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to Control LED Tape with DMX, sACN and Art-Net">
@@ -15,12 +16,12 @@
 <meta property="og:image" content="https://ledtapecalculator.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Control LED Tape with DMX, sACN and Art-Net","description":"Learn how conventional RGB/RGBW tape and addressable pixel tape connect to DMX, sACN, and Art-Net systems, including decoders, pixel controllers, universes, and channel counts.","mainEntityOfPage":"https://ledtapecalculator.com/dmx-led-tape-control.html","author":{"@type":"Organization","name":"LED Tape Calculator"},"publisher":{"@type":"Organization","name":"LED Tape Calculator"},"datePublished":"2026-08-23","dateModified":"2026-08-23"}</script>
-<link rel="stylesheet" href="/jargon.css"></head>
+</head>
 <body>
 <div class="wrap">
 <header class="sitebar">
 <a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a>
-<nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/glossary.html">Definitions</a><a href="/about.html">About</a></nav>
+<nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
 </header>
 
 <div class="breadcrumb"><a href="/">Calculator</a> › <a href="/guides.html">Guides</a> › How to Control LED Tape with DMX, sACN and Art-Net</div>
@@ -65,7 +66,7 @@
 <span class="formula">Console / software → Ethernet (sACN or Art-Net) → Pixel controller → Pixel data → LED tape</span>
 <p>For analog tape, the last stage is usually a DMX or network-connected constant-voltage decoder instead of a pixel controller.</p>
 
-<h2>Plan universes before installation</h2>
+<div class="cta"><h3>Using a DIP-switch DMX decoder?</h3><p>Many compact RGB/RGBW tape decoders set the DMX start address with binary DIP switches.</p><a class="button" href="/dmx-dip-switch-calculator.html">Open DMX DIP Switch Calculator</a></div>\n<h2>Plan universes before installation</h2>
 <p>Pixel projects can consume universes quickly. A 1,000-pixel RGB installation requires 3,000 control channels, or at least six DMX universes. Controller port limits, maximum pixels per port, refresh rate, network traffic, and data-cable distance all become part of the design.</p>
 
 <h2>Keep raw pixel data runs short</h2>
@@ -79,20 +80,15 @@
 </div>
 
 <h2>Related guides</h2>
-<div class="related"><a href="/dmx-vs-spi-led-tape.html">DMX vs SPI LED Tape: Can’t I Just Use DMX?</a><a href="/spi-pixel-controllers-decoders.html">SPI Pixel Controllers and Decoders</a><a href="/ws2811-vs-ws2812b-vs-ws2815.html">WS2811 vs WS2812B vs WS2815 Addressable LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a></div>
+<div class="related"><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a><a href="/ws2811-vs-ws2812b-vs-ws2815.html">WS2811 vs WS2812B vs WS2815 Addressable LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/led-tape-power-injection.html">LED Tape Power Injection: When and How to Add Feeds</a></div>
 
-<h2>Sources &amp; further reading</h2><ul class="sources"><li><a href="https://support.enttec.com/user-manuals/elm" rel="noopener noreferrer">ENTTEC ELM manual — LED controllers and Art-Net/sACN signal flow</a></li><li><a href="https://support.enttec.com/user-manuals/pixelator-mini-mk2" rel="noopener noreferrer">ENTTEC Pixelator Mini Mk2 manual — universes, pixel grouping and sACN/Art-Net</a></li><li><a href="https://support.enttec.com/dmx/edmx-art-net-sacn-networking/art-net-vs-sacn-which-should-you-use" rel="noopener noreferrer">ENTTEC — Art-Net vs sACN</a></li></ul>
+<h2>Sources & further reading</h2><ul class="sources"><li><a href="https://support.enttec.com/user-manuals/elm" rel="noopener noreferrer">ENTTEC ELM manual — LED controllers and Art-Net/sACN signal flow</a></li><li><a href="https://support.enttec.com/user-manuals/pixelator-mini-mk2" rel="noopener noreferrer">ENTTEC Pixelator Mini Mk2 manual — universes, pixel grouping and sACN/Art-Net</a></li><li><a href="https://support.enttec.com/dmx/edmx-art-net-sacn-networking/art-net-vs-sacn-which-should-you-use" rel="noopener noreferrer">ENTTEC — Art-Net vs sACN</a></li></ul>
 
 <h2>Planning disclaimer</h2>
 <p>This guide is for project planning and education. Verify calculations against the exact tape, power supply, controller, conductor, connectors, and manufacturer instructions. Final installation must comply with applicable electrical requirements.</p>
 </article>
 
-<footer class="footer">© 2026 Jim Eischen Designs LLC. All rights reserved. • LED Tape Calculator • 0.2.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:feedback@ledtapecalculator.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+<footer class="footer">LED Tape Calculator • 0.3.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
 </div>
-
-<script src="/jargon.js" defer></script></body>
+</body>
 </html>
-
-
-
-
