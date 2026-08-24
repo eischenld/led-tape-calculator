@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.4-beta (2026-08-24)
+Version: 0.3.5-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -61,7 +61,6 @@ The calculator is instrumented for these custom events:
 - `dmx_dip_tool_used` (once per page load, on the first meaningful DIP-tool interaction)
 - `dmx_dip_address_calculated`
 - `dmx_dip_switch_toggled`
-- `dmx_dip_layout_changed`
 
 Event properties are intentionally limited to non-identifying product-usage information such as unit system, voltage, tape category/type, and (for IC tape PDF export) calculated pixel-group count. DMX DIP events use interaction type, decoder layout, representability, and a coarse address range instead of the exact address. Project names, personally identifying information, cookies, persistent IDs, and detailed calculator inputs are not intentionally sent with custom events.
 
@@ -111,3 +110,10 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Combined the entered and calculated DMX address into one shared field.
 - Entering an address updates the switch bank; manually toggling a switch immediately updates the same address field.
 - Preserved the collapsed help sections and privacy-conscious analytics.
+
+## New in 0.3.5-beta
+- Removed the decoder-layout selector and standardized the tool on the common switches-1–9 address layout.
+- Kept switch 10 visible as a disabled manufacturer-specific function switch for physical comparison.
+- Moved the single “Switches ON” summary directly beneath the DIP bank.
+- Removed the repeated switch list from the status message.
+- Removed the obsolete layout-changed analytics event while retaining the fixed layout property on usage events.
