@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.5-beta (2026-08-24)
+Version: 0.3.6-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -117,3 +117,10 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Moved the single “Switches ON” summary directly beneath the DIP bank.
 - Removed the repeated switch list from the status message.
 - Removed the obsolete layout-changed analytics event while retaining the fixed layout property on usage events.
+
+## New in 0.3.6-beta
+- Removed the routine “address is representable” status note; valid addresses now leave the tool uncluttered.
+- Allowed the address field to be cleared and replaced naturally without forcing it back to 1 while the user types.
+- Accepted whole-number entries from 1 through 512 and continued to update the DIP bank immediately for valid values.
+- Left invalid input visible for correction and added clear errors for blank, zero, non-integer, over-512, and longer-than-three-digit entries.
+- Preserved the special warning for address 512, which cannot be represented by address switches 1–9.
