@@ -216,9 +216,15 @@
           </div>
 
           <div>
-            <label for="wattsPerFt">Tape watts / <span id="powerUnitLabel">m</span></label>
-            <input id="wattsPerFt" type="text" value="15.75" inputmode="decimal" placeholder="e.g. 90/5 or 18">
-            <div class="hint">Use manufacturer rated maximum power. Simple formulas are allowed, e.g. 90/5.</div>
+            <label for="powerBasis">Manufacturer power rating</label>
+            <select id="powerBasis">
+              <option value="per_meter" selected>Watts per meter</option>
+              <option value="per_5m">Watts per 5 meters</option>
+              <option value="per_chip">Watts per IC chip / pixel group</option>
+            </select>
+            <label for="wattsPerFt" style="margin-top:8px">Power value</label>
+            <input id="wattsPerFt" type="text" value="15.75" inputmode="decimal" placeholder="e.g. 15.75">
+            <div class="hint" id="powerRatingHint">Enter the manufacturer's maximum watts per meter. Simple formulas are allowed.</div>
           </div>
 
           <div>
@@ -419,32 +425,42 @@ function buildWireOptions(){
 
 function updateTapeFields(){
   const isIC = getTapeMeta().kind === "ic";
+  const chipOption = $("powerBasis").querySelector('option[value="per_chip"]');
+  chipOption.disabled = !isIC;
+  if(!isIC && $("powerBasis").value === "per_chip") $("powerBasis").value = "per_meter";
   $("pixelDensityWrap").style.display = isIC ? "" : "none";
   $("pixelsPerICWrap").style.display = isIC ? "" : "none";
   $("pixelMetric").style.display = isIC ? "" : "none";
   $("dataMetric").style.display = isIC ? "" : "none";
   $("pixelDensityUnit").textContent = unitSystem === "imperial" ? "ft" : "m";
+  updatePowerRatingHint();
+}
+
+function updatePowerRatingHint(){
+  const basis = $("powerBasis").value;
+  const messages = {
+    per_meter: "Enter the manufacturer's maximum watts per meter. Simple formulas are allowed.",
+    per_5m: "Enter the manufacturer's maximum watts for one 5-meter reel.",
+    per_chip: "Enter maximum watts per IC-controlled pixel group. LED density and LEDs per IC are used to calculate watts per meter."
+  };
+  $("powerRatingHint").textContent = messages[basis];
 }
 
 function switchUnits(target){
   if(target === unitSystem) return;
   const previousUnitSystem = unitSystem;
 
-  const wattsEval = evalMathExpression($("wattsPerFt").value);
-  const watts = Number.isFinite(wattsEval) ? wattsEval : 0;
   const len = +$("length").value || 0;
   const maxRun = +$("maxRun").value || 0;
   const feed = +$("feedDistance").value || 0;
   const density = +$("pixelDensity").value || 0;
 
   if(target === "metric"){
-    $("wattsPerFt").value = wFtToWM(watts).toFixed(2);
     $("length").value = ftToM(len).toFixed(2);
     $("maxRun").value = ftToM(maxRun).toFixed(2);
     $("feedDistance").value = ftToM(feed).toFixed(2);
     $("pixelDensity").value = (density / 0.3048).toFixed(1);
   } else {
-    $("wattsPerFt").value = wMToWFt(watts).toFixed(2);
     $("length").value = mToFt(len).toFixed(2);
     $("maxRun").value = mToFt(maxRun).toFixed(2);
     $("feedDistance").value = mToFt(feed).toFixed(2);
@@ -454,7 +470,6 @@ function switchUnits(target){
   unitSystem = target;
   $("imperialBtn").classList.toggle("active",target==="imperial");
   $("metricBtn").classList.toggle("active",target==="metric");
-  $("powerUnitLabel").textContent = target==="imperial" ? "ft" : "m";
   $("lengthUnitLabel").textContent = target==="imperial" ? "ft" : "m";
   $("maxRunUnitLabel").textContent = target==="imperial" ? "ft" : "m";
   $("feedUnitLabel").textContent = target==="imperial" ? "ft" : "m";
@@ -480,7 +495,7 @@ function calculate(){
     $("status").textContent = "Enter a valid watts expression using numbers and +, -, *, /, or parentheses. Example: 90/5";
     return;
   }
-  const wattsPerUnit = wattsEval;
+  const powerBasis = $("powerBasis").value;
   const lengthInput = +$("length").value || 0;
   const runs = Math.max(1,+$("runs").value || 1);
   const maxRunInput = Math.max(.01,+$("maxRun").value || 1);
@@ -493,7 +508,25 @@ function calculate(){
   const lengthFt = unitSystem==="imperial" ? lengthInput : mToFt(lengthInput);
   const maxRunFt = unitSystem==="imperial" ? maxRunInput : mToFt(maxRunInput);
   const feedFt = unitSystem==="imperial" ? feedInput : mToFt(feedInput);
-  const wattsPerFt = unitSystem==="imperial" ? wattsPerUnit : wMToWFt(wattsPerUnit);
+  const densityInput = Math.max(0,+$("pixelDensity").value || 0);
+  const densityPerM = unitSystem==="imperial" ? densityInput/0.3048 : densityInput;
+  const ledsPerIC = Math.max(1,+$("pixelsPerIC").value || 1);
+  if(powerBasis === "per_chip" && !isIC){
+    $("status").className = "status bad";
+    $("status").textContent = "Watts per chip is available only for addressable / IC tape.";
+    return;
+  }
+  if(powerBasis === "per_chip" && densityPerM <= 0){
+    $("status").className = "status bad";
+    $("status").textContent = "Enter LED density and LEDs per IC to use watts per chip.";
+    return;
+  }
+  const wattsPerM = powerBasis === "per_5m"
+    ? wattsEval/5
+    : powerBasis === "per_chip"
+      ? wattsEval*(densityPerM/ledsPerIC)
+      : wattsEval;
+  const wattsPerFt = wMToWFt(wattsPerM);
 
   const loadW = wattsPerFt * lengthFt;
   const amps = loadW / voltage;
@@ -510,9 +543,7 @@ function calculate(){
   const totalFeeds = feedsPerRun*runs;
   const extra = Math.max(0,totalFeeds-runs);
 
-  const densityInput = Math.max(0,+$("pixelDensity").value || 0);
   const densityPerFt = unitSystem==="imperial" ? densityInput : densityInput*0.3048;
-  const ledsPerIC = Math.max(1,+$("pixelsPerIC").value || 1);
   const ledCount = Math.round(lengthFt*densityPerFt);
   const pixelGroups = Math.ceil(ledCount/ledsPerIC);
   const dataChannels = pixelGroups*channels;
@@ -568,7 +599,11 @@ function calculate(){
     `<li><span>Total tape feed points</span><em>${totalFeeds} (${extra} additional injection)</em></li>`+
     `<li><span>Controller / decoder</span><em>${controllerText}</em></li>`;
 
-  const rate = `${n(wattsPerUnit)} W/${u}`;
+  const rate = powerBasis === "per_5m"
+    ? `${n(wattsEval)} W/5 m (${n(wattsPerM)} W/m)`
+    : powerBasis === "per_chip"
+      ? `${n(wattsEval,3)} W/chip (${n(wattsPerM)} W/m)`
+      : `${n(wattsEval)} W/m`;
   window.lastSummary =
 `${project}
 LED Tape Project Summary
@@ -613,6 +648,7 @@ $("channels").addEventListener("change",()=>{
 ["voltage","wattsPerFt","length","runs","maxRun","feedDistance","awg","margin","maxDrop","pixelDensity","pixelsPerIC","project"].forEach(id=>{
   $(id).addEventListener("change",calculate);
 });
+$("powerBasis").addEventListener("change",()=>{ updatePowerRatingHint(); calculate(); });
 $("calc").addEventListener("click",()=>{
   calculate();
   trackEvent("calculate_project", analyticsTapeProperties());
@@ -736,7 +772,6 @@ $("reset").addEventListener("click",()=>{
   unitSystem="metric";
   $("imperialBtn").classList.remove("active");
   $("metricBtn").classList.add("active");
-  $("powerUnitLabel").textContent="m";
   $("lengthUnitLabel").textContent="m";
   $("maxRunUnitLabel").textContent="m";
   $("feedUnitLabel").textContent="m";
@@ -744,6 +779,7 @@ $("reset").addEventListener("click",()=>{
   buildWireOptions();
   $("voltage").value="24";
   $("channels").value="4";
+  $("powerBasis").value="per_meter";
   $("wattsPerFt").value="15.75";
   $("length").value="12.8";
   $("runs").value="2";
