@@ -38,23 +38,49 @@
 <h2>First: the exact tape matters more than the chip name</h2>
 <p>Suppliers use these IC families in many strip layouts, LED densities, voltages, and pixel groupings. Always verify the product's own datasheet and printed markings. The comparisons below describe common implementations, not a guarantee about every product carrying the name.</p>
 
+<h2>Built-in IC vs external IC</h2>
+<p>A built-in IC places the control electronics inside the LED package. This commonly allows each LED package to act as its own pixel and keeps the strip layout compact. WS2812B and WS2815 are familiar examples.</p>
+<p>An external IC is a separate component mounted on the tape. One external driver may control one LED or a group of LEDs, depending on the product. WS2811 commonly uses this arrangement. External does not mean inferior—it describes the construction and often supports higher-voltage grouped designs.</p>
+
+<h2>One LED is not always one pixel</h2>
+<p>The controller sends one color value to each IC-controlled address. Every LED assigned to that address changes together. A strip with 60 LEDs per meter but groups of three LEDs per IC therefore has 20 controllable pixels per meter, not 60.</p>
+<div class="note"><p><strong>Check three separate specifications:</strong> LEDs per meter, ICs or pixels per meter, and LEDs per pixel. They determine visual resolution, cut length, controller capacity, and the pixel count entered in the calculator.</p></div>
+
 <h2>WS2812B</h2>
 <p>WS2812B integrates the RGB LED and control electronics into each pixel package. It is most commonly associated with 5V individually addressable tape. Each RGB pixel consumes three color-data channels.</p>
 <p>The advantages are fine pixel granularity and huge ecosystem support. The tradeoff is that 5V systems can draw substantial current and are sensitive to voltage drop, so large projects often need frequent power distribution.</p>
 
 <h2>WS2811</h2>
-<p>WS2811 is an external pixel-driver IC rather than the integrated LED package used by WS2812B. It is commonly found on 12V RGB tape where one IC controls a group of LEDs. For example, a physical group may contain several LEDs but behave as one RGB pixel from the controller's point of view.</p>
-<p>That grouping reduces addressable resolution but can make long decorative runs easier to power than a comparable high-current 5V strip.</p>
+<p>WS2811 is an external pixel-driver IC rather than the integrated LED package used by WS2812B. It is often found on 12V RGB tape where one IC controls a group of LEDs, although products using other voltages and grouping arrangements also exist.</p>
+<p>Grouping reduces addressable resolution but can reduce the number of controller pixels required and can make longer decorative runs easier to distribute power to than a comparable high-current 5V strip.</p>
 
 <h2>WS2815</h2>
 <p>WS2815 is commonly used for 12V individually addressable RGB tape. A notable feature is its dual-signal arrangement: a primary and backup data path are intended to allow data to continue past certain single-pixel/data failures.</p>
 <p>The 12V supply reduces feeder current compared with an equivalent-wattage 5V system, but you still need to design power distribution around the actual tape wattage and trace resistance.</p>
 
 <h2>Quick comparison</h2>
-<table><tr><th>Family</th><th>Common supply</th><th>Common addressing</th><th>Notable trait</th></tr>
-<tr><td>WS2811</td><td>Often 12V</td><td>Frequently grouped LEDs per pixel</td><td>External driver IC; good for coarser decorative pixels</td></tr>
-<tr><td>WS2812B</td><td>Usually 5V</td><td>Usually individual RGB pixels</td><td>Very common, simple one-wire data ecosystem</td></tr>
-<tr><td>WS2815</td><td>Usually 12V</td><td>Usually individual RGB pixels</td><td>Backup data path in common implementations</td></tr></table>
+<div class="table-scroll"><table><tr><th>Family</th><th>IC construction</th><th>Common supply</th><th>Common addressing</th><th>Data behavior</th></tr>
+<tr><td>WS2811</td><td>External driver</td><td>Often 12V; other versions exist</td><td>Frequently grouped LEDs per pixel</td><td>Single data stream in common tape</td></tr>
+<tr><td>WS2812B</td><td>Built into RGB LED</td><td>Usually 5V</td><td>Usually individual RGB pixels</td><td>Single data stream</td></tr>
+<tr><td>WS2815</td><td>Built into RGB LED</td><td>Usually 12V</td><td>Usually individual RGB pixels</td><td>Primary and backup data paths</td></tr></table></div>
+
+<h2>Single data, clocked data, and backup data</h2>
+<p>WS2811, WS2812B, and similar tape commonly use a self-clocked single-data connection. The controller sends a precisely timed serial stream over one data conductor, and each pixel forwards the remaining data downstream.</p>
+<p>Other IC families use separate data and clock conductors. A clocked design can be useful when the controller and tape explicitly support the same protocol, but it requires another signal connection and should not be treated as interchangeable with one-wire tape.</p>
+<p>Backup-data designs such as common WS2815 tape add a second data path intended to carry the signal past certain single-pixel failures. This improves fault tolerance, but it does not make the tape immune to damaged power conductors, multiple adjacent failures, wiring errors, or incompatible control signals.</p>
+
+<h2>RGB, RGBW, and RGB+CCT affect protocol selection</h2>
+<p>An RGB pixel normally consumes three channel values. RGBW needs four, and RGB+CCT may need five. The IC, controller firmware, configured color order, and tape must agree on the channel format. A controller listing a familiar IC family is not automatically compatible with every color variant sold under that family.</p>
+
+<h2>How to choose an IC family</h2>
+<ol>
+<li><strong>Start with the required visual resolution.</strong> Decide whether every LED must be independently controlled or whether grouped pixels are acceptable.</li>
+<li><strong>Confirm the color format.</strong> Match RGB, RGBW, tunable white, or RGB+CCT to both the IC and controller.</li>
+<li><strong>Match the protocol.</strong> The controller must explicitly support the tape's IC protocol, color order, and channel count.</li>
+<li><strong>Check voltage and power distribution.</strong> Higher voltage can reduce current for equal wattage, but tape trace resistance and manufacturer run limits still apply.</li>
+<li><strong>Count IC pixels—not just LEDs.</strong> Use controllable pixels per meter when sizing controller outputs and network universes.</li>
+<li><strong>Choose the failure behavior deliberately.</strong> Use backup-data or directly addressed DMX-style products when the installation requires greater tolerance of a single data-path interruption.</li>
+</ol>
 
 <h2>Data and power are separate design problems</h2>
 <p>A pixel can receive valid data and still misbehave because its supply voltage is too low. Conversely, perfect power distribution will not fix a poor data waveform, missing signal reference, excessive unbuffered data distance, or incompatible logic level.</p>
@@ -70,7 +96,7 @@
 <h2>Related guides</h2>
 <div class="related"><a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a><a href="/led-tape-power-injection.html">LED Tape Power Injection: When and How to Add Feeds</a><a href="/led-tape-voltage-drop.html">LED Tape Voltage Drop Explained</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a></div>
 
-<h2>Sources &amp; further reading</h2><ul class="sources"><li><a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections" rel="noopener noreferrer">Adafruit NeoPixel Überguide — Basic Connections</a></li><li><a href="https://www.enttec.com/pixel-protocols/DMX512" rel="noopener noreferrer">ENTTEC — Pixel protocols and controller support</a></li></ul>
+<h2>Sources &amp; further reading</h2><ul class="sources"><li><a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections" rel="noopener noreferrer">Adafruit NeoPixel Überguide — Basic Connections</a></li><li><a href="https://www.enttec.com/pixel-protocols/DMX512" rel="noopener noreferrer">ENTTEC — Pixel protocols and controller support</a></li><li><a href="https://www.superlightingled.com/addressable-led-strip-lights-c-5.html" rel="noopener noreferrer">SuperLightingLED — Addressable LED strip classifications and IC examples</a></li><li><a href="https://www.superlightingled.com/blog/ultimate-guide-to-choosing-the-right-addressable-led-strip/" rel="noopener noreferrer">SuperLightingLED — Addressable tape construction and signal categories</a></li></ul>
 
 <h2>Planning disclaimer</h2>
 <p>This guide is for project planning and education. Verify calculations against the exact tape, power supply, controller, conductor, connectors, and manufacturer instructions. Final installation must comply with applicable electrical requirements.</p>
