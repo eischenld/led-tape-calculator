@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://ledtapecalculator.com/sitemap.xml

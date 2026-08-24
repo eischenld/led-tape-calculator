@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://ledtapecalculator.com/</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
-<url><loc>https://ledtapecalculator.com/guides.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-<url><loc>https://ledtapecalculator.com/about.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
-<url><loc>https://ledtapecalculator.com/privacy.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
-<url><loc>https://ledtapecalculator.com/12v-vs-24v-led-tape.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://ledtapecalculator.com/led-tape-power-supply-sizing.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://ledtapecalculator.com/led-tape-voltage-drop.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://ledtapecalculator.com/led-tape-power-injection.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://ledtapecalculator.com/rgb-vs-rgbw-vs-rgbcct.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://ledtapecalculator.com/ws2811-vs-ws2812b-vs-ws2815.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://ledtapecalculator.com/led-tape-wire-size.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://ledtapecalculator.com/dmx-led-tape-control.html</loc><lastmod>2026-08-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-\n<url><loc>https://ledtapecalculator.com/5v-vs-12v-vs-24v-led-tape.html</loc><lastmod>2026-08-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n<url><loc>https://ledtapecalculator.com/dmx-dip-switch-calculator.html</loc><lastmod>2026-08-24</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>\n</urlset>
+  <url><loc>https://ledtapecalculator.com/</loc></url>
+  <url><loc>https://ledtapecalculator.com/dmx-dip-switch-calculator.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/guides.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/5v-vs-12v-vs-24v-led-tape.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/led-tape-power-supply-sizing.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/led-tape-voltage-drop.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/led-tape-power-injection.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/rgb-vs-rgbw-vs-rgbcct.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/ws2811-vs-ws2812b-vs-ws2815.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/led-tape-wire-size.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/dmx-led-tape-control.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/about.html</loc></url>
+  <url><loc>https://ledtapecalculator.com/privacy.html</loc></url>
+</urlset>

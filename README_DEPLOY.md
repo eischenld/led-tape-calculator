@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.1-beta (2026-08-23)
+Version: 0.3.3-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -11,7 +11,7 @@ Version: 0.3.1-beta (2026-08-23)
 - `about.html` — beta/about page
 - `privacy.html` — current no-account/no-project-storage privacy notice
 - `404.html` — not-found page
-- `favicon.svg` and `og-image.png` — browser/social assets
+- `favicon.png` and `og-image.png` — browser/social assets
 - `site.webmanifest` — installable-site metadata
 - `robots.txt` — allows indexing
 - `_headers` — Cloudflare Pages security headers
@@ -58,8 +58,12 @@ The calculator is instrumented for these custom events:
 - `unit_changed`
 - `tape_type_changed`
 - `feedback_clicked`
+- `dmx_dip_tool_used` (once per page load, on the first meaningful DIP-tool interaction)
+- `dmx_dip_address_calculated`
+- `dmx_dip_switch_toggled`
+- `dmx_dip_layout_changed`
 
-Event properties are intentionally limited to non-identifying product-usage information such as unit system, voltage, tape category/type, and (for IC tape PDF export) calculated pixel-group count. Project names and detailed calculator inputs are not intentionally sent.
+Event properties are intentionally limited to non-identifying product-usage information such as unit system, voltage, tape category/type, and (for IC tape PDF export) calculated pixel-group count. DMX DIP events use interaction type, decoder layout, representability, and a coarse address range instead of the exact address. Project names, personally identifying information, cookies, persistent IDs, and detailed calculator inputs are not intentionally sent with custom events.
 
 The event code checks for `window.zaraz.track()` before sending, so the calculator continues to work normally if analytics is blocked or Zaraz is unavailable.
 
@@ -77,7 +81,7 @@ Eight public guide pages were added:
 
 The homepage now links into the guide library. Canonical URLs and the sitemap use `https://ledtapecalculator.com`.
 
-\n## New in 0.3.1-beta
+## New in 0.3.1-beta
 - Added interactive DMX DIP Switch Calculator.
 - Converts DMX start addresses to DIP switch settings and vice versa.
 - Defaults to switches 1–9 as address bits; switch 10 is manufacturer-specific.
@@ -85,3 +89,18 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Added Zaraz events for DMX DIP usage.
 - Expanded voltage guide to 5V vs 12V vs 24V.
 - Added a 301 redirect from the old 12V-vs-24V guide URL.
+
+## New in 0.3.2-beta
+- Added `dmx_dip_tool_used`, which fires only once per page load after the first meaningful DIP-calculator interaction.
+- Preserved the address-calculated, switch-toggled, and layout-changed events.
+- Replaced exact DMX addresses in analytics with coarse address ranges and added non-sensitive interaction type, layout, and representability properties.
+- Kept analytics failure-safe when Zaraz is unavailable or blocked.
+- Did not add a redundant tool-opened event; normal pageview analytics already measures page opens.
+- Retained the dependency-free, touch-friendly architecture for future PWA and mobile-app packaging.
+
+## New in 0.3.3-beta
+- Moved the address controls and interactive DIP bank directly beneath the compact page introduction.
+- Removed instructional content from the primary calculator panels.
+- Preserved the quick guide, switch-value table, addressing explanation, decoder cautions, and planning link in two collapsed disclosure sections below the tool.
+- Kept the supporting content accessible by keyboard and available in the page for search engines.
+- Preserved all calculator behavior and privacy-conscious analytics from 0.3.2-beta.

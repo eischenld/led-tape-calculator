@@ -7,7 +7,7 @@
 <meta name="description" content="Free DMX DIP switch calculator. Enter a DMX start address to see the binary DIP switch settings, or toggle switches to calculate the address.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://ledtapecalculator.com/dmx-dip-switch-calculator.html">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png">
 <link rel="stylesheet" href="/guide.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="DMX DIP Switch Calculator">
@@ -48,6 +48,8 @@
 .switch-summary{margin-top:14px;border-top:1px solid var(--line);padding-top:13px;font-size:14px;color:var(--muted)}
 .switch-summary strong{color:var(--text)}
 .bit-table{margin-top:18px}.mini-note{font-size:12px;color:var(--muted);line-height:1.5}
+.tool-intro{margin:18px 0 14px}.tool-intro h1{margin:0 0 6px;font-size:clamp(28px,5vw,44px);line-height:1.08}.tool-intro p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.help-stack{display:grid;gap:10px;margin-top:18px}.help-stack details{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}.help-stack summary{cursor:pointer;padding:15px 18px;font-weight:800;color:var(--text);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}.help-stack summary::-webkit-details-marker{display:none}.help-stack summary::after{content:"+";font-size:22px;color:var(--accent2);font-weight:500}.help-stack details[open] summary::after{content:"−"}.help-body{padding:0 18px 18px;color:var(--muted)}.help-body .quick{margin:0 0 16px}.help-body .content{margin:0;padding:0;border:0;background:transparent;box-shadow:none}.related-compact{margin-top:18px}
 @media(min-width:1200px){.dips{grid-template-columns:repeat(10,minmax(0,1fr));gap:8px}}@media(max-width:940px){.tool-grid{grid-template-columns:1fr}}@media(max-width:520px){.dips{gap:6px}.dip button{min-height:108px;padding:6px 3px}.dip-track{width:22px}}
 </style>
 </head>
@@ -59,15 +61,12 @@
 </header>
 <div class="breadcrumb"><a href="/">Calculator</a> › DMX DIP Switch Calculator</div>
 
-<section class="hero">
-<div class="eyebrow">Free DMX Tool</div>
+<section class="tool-intro">
 <h1>DMX DIP Switch Calculator</h1>
 <p>Enter a DMX start address to see the required binary DIP switches—or click the switches yourself and instantly calculate the resulting address.</p>
 </section>
 
-<div class="quick"><strong>Typical decoder layout:</strong> switches 1–9 represent 1, 2, 4, 8, 16, 32, 64, 128 and 256. Switch 10 is often a test, mode, termination or other manufacturer-specific function—not part of the DMX address. Always check the decoder manual.</div>
-
-<section style="margin-top:18px">
+<section>
 <div class="tool-grid">
 <div class="tool-panel">
 <h2>DMX Start Address</h2>
@@ -89,13 +88,21 @@
 </div>
 <div id="status" class="status good">DMX address 1: switch 1 ON.</div>
 <div class="switch-summary">Switches ON: <strong id="switchSummary">1</strong></div>
-<p class="mini-note">The physical ON direction varies by decoder. Use the printed <strong>ON</strong> marking next to the actual DIP bank rather than assuming up or down.</p>
-<p class="mini-note">This layout is intentionally touch-friendly so it can translate cleanly into a future phone app or PWA.</p>
 </div>
 
 <div class="tool-panel">
 <div class="dip-title"><strong>Interactive DIP bank</strong><span>Click switches to calculate the address</span></div>
 <div class="dip-board"><div class="dips" id="dipBank"></div></div>
+</div>
+</div>
+</section>
+
+<section class="help-stack" aria-label="DMX DIP calculator help">
+<details>
+<summary>Quick guide and switch values</summary>
+<div class="help-body">
+<div class="quick"><strong>Typical decoder layout:</strong> switches 1–9 represent 1, 2, 4, 8, 16, 32, 64, 128 and 256. Switch 10 is often a test, mode, termination or other manufacturer-specific function—not part of the DMX address. Always check the decoder manual.</div>
+<p class="mini-note">The physical ON direction varies by decoder. Use the printed <strong>ON</strong> marking next to the actual DIP bank rather than assuming up or down.</p>
 <table class="bit-table">
 <thead><tr><th>Switch</th><th>Address value</th><th>Meaning</th></tr></thead>
 <tbody>
@@ -112,10 +119,11 @@
 </tbody>
 </table>
 </div>
-</div>
-</section>
+</details>
 
-<article class="content" style="margin-top:20px">
+<details>
+<summary>How DMX DIP addressing works</summary>
+<div class="help-body"><article class="content">
 <h2>How DMX DIP switch addressing works</h2>
 <p>Traditional DMX DIP addressing uses binary addition. Each switch has a value that doubles from the previous switch. Turn on the switches whose values add up to the desired DMX start address.</p>
 <p>For example, DMX address <strong>137</strong> is:</p>
@@ -136,17 +144,16 @@
 <p>Use the LED Tape Project Calculator for power-supply sizing, feeder voltage drop, injection planning, controller sizing and pixel calculations.</p>
 <a class="button" href="/">Open LED Tape Calculator</a>
 </div>
+</article></div>
+</details>
+</section>
 
+<section class="related-compact">
 <h2>Related guides</h2>
-<div class="related">
-<a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a>
-<a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a>
-<a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a>
-<a href="/led-tape-wire-size.html">LED Tape Wire Size Guide</a>
-</div>
-</article>
+<div class="related"><a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide</a></div>
+</section>
 
-<footer class="footer">LED Tape Calculator • 0.3.1-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+<footer class="footer">LED Tape Calculator • 0.3.3-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
 </div>
 
 <script>
@@ -160,9 +167,37 @@
   const summary=document.getElementById("switchSummary");
   const switches=Array(10).fill(false);
   const weights=[1,2,4,8,16,32,64,128,256,512];
+  let toolUsedTracked=false;
 
   function trackEvent(name,properties={}){
     try{if(window.zaraz&&typeof window.zaraz.track==="function")window.zaraz.track(name,properties)}catch(e){}
+  }
+
+  function layoutName(){
+    return mode.value==="10"?"10_address_switches":"9_address_switches";
+  }
+
+  function isRepresentable(addr){
+    return Number.isInteger(addr)&&addr>=1&&addr<=(mode.value==="10"?512:511);
+  }
+
+  function addressRange(addr){
+    if(!Number.isInteger(addr)||addr<1||addr>512)return "outside_dmx_range";
+    if(addr<=64)return "1_64";
+    if(addr<=128)return "65_128";
+    if(addr<=256)return "129_256";
+    if(addr<=511)return "257_511";
+    return "512";
+  }
+
+  function analyticsProperties(interactionType,addr){
+    return {interaction_type:interactionType,layout:layoutName(),representable:isRepresentable(addr),address_range:addressRange(addr)};
+  }
+
+  function trackToolUsed(interactionType,addr){
+    if(toolUsedTracked)return;
+    toolUsedTracked=true;
+    trackEvent("dmx_dip_tool_used",analyticsProperties(interactionType,addr));
   }
 
   function buildBank(){
@@ -246,19 +281,19 @@
       summary.textContent="Not representable";
       status.className="status warn";
       status.textContent="Address 512 cannot be represented by standard switches 1–9. Check the decoder manual or select the 10-address-switch layout only if DIP 10 is explicitly defined as 512.";
-      if(track)trackEvent("dmx_dip_address_calculated",{address:"512",layout:"9_address_switches",representable:"false"});
+      if(track){trackToolUsed("address_input",addr);trackEvent("dmx_dip_address_calculated",analyticsProperties("address_input",addr))}
       return;
     }
 
     setSwitchesFromAddress(addr);buildBank();render(addr);
-    if(track)trackEvent("dmx_dip_address_calculated",{address:String(addr),layout:mode.value==="10"?"10_address_switches":"9_address_switches",representable:"true"});
+    if(track){trackToolUsed("address_input",addr);trackEvent("dmx_dip_address_calculated",analyticsProperties("address_input",addr))}
   }
 
   function updateFromSwitches(track=false){
     const addr=addressFromSwitches();
     input.value=String(addr);
     render(addr);
-    if(track)trackEvent("dmx_dip_switch_toggled",{address:String(addr),layout:mode.value==="10"?"10_address_switches":"9_address_switches"});
+    if(track){trackToolUsed("switch_toggle",addr);trackEvent("dmx_dip_switch_toggled",analyticsProperties("switch_toggle",addr))}
   }
 
   input.addEventListener("input",()=>updateFromInput(false));
@@ -266,8 +301,9 @@
   mode.addEventListener("change",()=>{
     const current=Math.min(512,Math.max(1,Number.parseInt(input.value,10)||1));
     input.value=String(current);
-    updateFromInput(true);
-    trackEvent("dmx_dip_layout_changed",{layout:mode.value==="10"?"10_address_switches":"9_address_switches"});
+    updateFromInput(false);
+    trackToolUsed("layout_change",current);
+    trackEvent("dmx_dip_layout_changed",analyticsProperties("layout_change",current));
   });
 
   buildBank();updateFromInput(false);
