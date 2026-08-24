@@ -149,7 +149,7 @@
     .pill{display:none}
   }
 </style>
-</head>
+<link rel="stylesheet" href="/jargon.css"></head>
 <body>
 <a class="skip-link" href="#calculator">Skip to calculator</a>
 <div class="shell">
@@ -330,14 +330,15 @@
   <section class="guide-section">
     <h2>LED Tape Guides</h2>
     <p>Learn the design choices behind the calculator—from voltage and wire sizing to pixels and DMX control.</p>
-    <div class="guide-cards"><a class="guide-card-home" href="/5v-vs-12v-vs-24v-led-tape.html"><strong>5V vs 12V vs 24V LED Tape: What’s the Difference?</strong><span>Compare 5V, 12V, and 24V LED tape for current draw, voltage drop, run length, cut intervals, power injection, pixels, and real-world installation.</span></a><a class="guide-card-home" href="/led-tape-power-supply-sizing.html"><strong>How to Size a Power Supply for LED Tape</strong><span>Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.</span></a><a class="guide-card-home" href="/led-tape-voltage-drop.html"><strong>LED Tape Voltage Drop Explained</strong><span>Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.</span></a><a class="guide-card-home" href="/led-tape-power-injection.html"><strong>LED Tape Power Injection: When and How to Add Feeds</strong><span>Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.</span></a></div>
-    <div class="guide-more"><a href="/guides.html">View all 8 guides →</a></div>
+    <div class="guide-cards"><a class="guide-card-home" href="/5v-vs-12v-vs-24v-led-tape.html"><strong>5V vs 12V vs 24V LED Tape: What’s the Difference?</strong><span>Compare 5V, 12V, and 24V LED tape for current draw, voltage drop, run length, cut intervals, power injection, pixels, and real-world installation.</span></a><a class="guide-card-home" href="/led-tape-power-supply-sizing.html"><strong>How to Size a Power Supply for LED Tape</strong><span>Calculate LED tape power supply wattage and current, choose practical headroom, and avoid common sizing mistakes for single-color, RGB, RGBW, and pixel tape.</span></a><a class="guide-card-home" href="/led-tape-voltage-drop.html"><strong>LED Tape Voltage Drop Explained</strong><span>Understand why LED tape gets dimmer or changes color over long runs, how feeder-wire voltage drop is calculated, and how voltage, current, wire size, and power injection interact.</span></a><a class="guide-card-home" href="/led-tape-power-injection.html"><strong>LED Tape Power Injection: When and How to Add Feeds</strong><span>Learn what LED tape power injection is, when long runs need additional feeds, where to place them, and how to avoid common multi-supply and pixel-tape wiring mistakes.</span></a><a class="guide-card-home" href="/spi-pixel-controllers-decoders.html"><strong>SPI Pixel Controllers and Decoders</strong><span>Learn how Art-Net or sACN becomes addressable-tape data and choose hardware by protocol, capacity, distance, power topology, and commissioning tools.</span></a><a class="guide-card-home" href="/differential-spi-extender-guide.html"><strong>What Is a Differential SPI Extender?</strong><span>Understand long-distance pixel-data transmitters, receivers, injectors, and satellite systems—and when direct SPI is enough.</span></a><a class="guide-card-home" href="/dmx-vs-spi-led-tape.html"><strong>DMX vs SPI LED Tape: Can’t I Just Use DMX?</strong><span>Understand when SPI is the practical choice, what “DMX tape” can mean, and how native DMX pixels differ from DMX decoders and converters.</span></a><a class="guide-card-home" href="/pixel-control-software-hardware-guide.html"><strong>Pixel Control Software &amp; Hardware</strong><span>Compare MADRIX, Resolume, ENTTEC ELM, Advatek, Pharos, and Visual Productions for live, mapped, and standalone systems.</span></a></div>
+    <div class="guide-more"><a href="/guides.html">View all 10 guides →</a></div>
   </section>
 
   <div class="footer">
     Beta planning tool only. Calculations are estimates based on user-entered manufacturer data. Final conductor sizing, overcurrent protection, enclosure requirements, listing requirements, Class 2 limitations, and installation methods must comply with applicable codes and manufacturer instructions.
     <span class="version">v0.2.0-beta</span>
-    <div class="site-links"><a href="/guides.html">Guides</a><a id="feedbackLink" href="mailto:feedback@ledtapecalculator.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a></div>
+    <div class="site-links"><a href="/guides.html">Guides</a><a id="feedbackLink" href="mailto:feedback@ledtapecalculator.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a><a href="/glossary.html">Definitions</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a></div>
+    <div>© 2026 Jim Eischen Designs LLC. All rights reserved.</div>
   </div>
 </div>
 
@@ -803,6 +804,7 @@ calculate();
 
 
 
-</body></html>
+<script src="/jargon.js" defer></script></body></html>
+
 
 

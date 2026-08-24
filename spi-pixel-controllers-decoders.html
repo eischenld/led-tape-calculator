@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPI Pixel Controllers and Decoders: Art-Net &amp; sACN to LED Tape — LED Tape Calculator</title>
+<meta name="description" content="Learn how SPI pixel controllers convert Art-Net, sACN, or DMX data for addressable LED tape, and compare selection criteria with examples from ENTTEC, Advatek, Visual Productions, DMXKing, and Pharos.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ledtapecalculator.com/spi-pixel-controllers-decoders.html">
+<link rel="icon" href="/favicon.png" type="image/png"><link rel="stylesheet" href="/guide.css">
+<meta property="og:type" content="article"><meta property="og:title" content="SPI Pixel Controllers and Decoders: Art-Net &amp; sACN to LED Tape">
+<meta property="og:description" content="Choose and configure network-to-SPI hardware for addressable LED tape, including protocol, universe, pixel, distance, and power considerations.">
+<meta property="og:url" content="https://ledtapecalculator.com/spi-pixel-controllers-decoders.html"><meta property="og:image" content="https://ledtapecalculator.com/og-image.png"><meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"SPI Pixel Controllers and Decoders: Art-Net and sACN to LED Tape","description":"Choose and configure network-to-SPI hardware for addressable LED tape, including protocol, universe, pixel, distance, and power considerations.","mainEntityOfPage":"https://ledtapecalculator.com/spi-pixel-controllers-decoders.html","author":{"@type":"Organization","name":"LED Tape Calculator"},"publisher":{"@type":"Organization","name":"LED Tape Calculator"},"datePublished":"2026-08-23","dateModified":"2026-08-23"}</script>
+<link rel="stylesheet" href="/jargon.css"></head><body><div class="wrap">
+<header class="sitebar"><a class="brand" href="/"><span class="logo">LED</span><span>LED Tape Calculator</span></a><nav class="nav"><a href="/">Calculator</a><a href="/guides.html">Guides</a><a href="/glossary.html">Definitions</a><a href="/about.html">About</a></nav></header>
+<div class="breadcrumb"><a href="/">Calculator</a> › <a href="/guides.html">Guides</a> › SPI Pixel Controllers and Decoders</div>
+<section class="hero"><div class="eyebrow">LED Tape Guide</div><h1>SPI Pixel Controllers and Decoders: Art-Net &amp; sACN to Addressable LED Tape</h1><p>Understand the hardware between a lighting console, media server, or architectural controller and addressable LED tape—and choose it by protocol, pixel capacity, distance, power topology, and commissioning features.</p></section>
+<div class="quick"><strong>Quick answer:</strong> An SPI pixel controller receives lighting data—commonly Art-Net or sACN over Ethernet—and generates the precise data waveform required by WS2811, WS2812B, WS2815, SK6812, APA102, or another pixel IC. Choose one that explicitly supports the tape protocol and color format, has enough universes and physical outputs, can be mounted close enough to the first pixel, and fits the project's power-distribution design.</div>
+<article class="content">
+
+<h2>What an SPI pixel controller does</h2>
+<span class="formula">Console / show controller → Art-Net or sACN network → SPI pixel controller → addressable LED tape</span>
+<p>Art-Net and sACN transport DMX-style channel values over an Ethernet network. Addressable tape does not normally understand those network packets directly. The pixel controller maps incoming universes and channels to pixels, then produces the tape's low-level data—and sometimes clock—signal.</p>
+<p>The same device may be described as an SPI decoder, pixel decoder, pixel controller, eDMX-to-pixel controller, or network-to-SPI converter. Product terminology varies; the important question is what data it receives and what electrical signal it outputs.</p>
+
+<h2>SPI does not mean every tape uses the same protocol</h2>
+<p>“SPI” is often used as an umbrella term for pixel output, but WS2812B-style one-wire timing, APA102-style data-and-clock signaling, backup-data tape, and other IC families are not automatically interchangeable. The controller's supported pixel list must include the exact IC or a manufacturer-approved compatible mode.</p>
+<div class="warning"><p><strong>Do not select a controller only because it says SPI.</strong> Confirm the IC protocol, RGB/RGBW/RGB+CCT channel format, color order, bit depth, data rate, and whether a clock or backup-data conductor is required.</p></div>
+
+<h2>How many universes and pixels do you need?</h2>
+<p>A standard DMX universe contains 512 channels. An 8-bit RGB pixel uses three channels, RGBW uses four, and RGB+CCT may use five. Because a pixel cannot be split cleanly across a universe boundary in many workflows, practical capacity is commonly treated as 170 RGB pixels or 128 RGBW pixels per universe.</p>
+<span class="formula">Pixel data channels = controllable pixel groups × channels per pixel</span>
+<span class="formula">Universes required = ceiling(pixel data channels ÷ 512)</span>
+<p>Use controllable pixel groups—not physical LED count—when the tape groups several LEDs under one IC address. Also verify the controller's per-port pixel limit, per-port universe limit, total device capacity, and maximum refresh rate. A large headline pixel count may depend on color format, bit depth, output timing, or distributing pixels across multiple ports.</p>
+
+<h2>The seven most important selection criteria</h2>
+<ol>
+<li><strong>Input protocol:</strong> match Art-Net, sACN, DMX512, KiNET, or the source protocol used by the show system.</li>
+<li><strong>Pixel protocol:</strong> verify support for the precise IC family and required data/clock arrangement.</li>
+<li><strong>Color format:</strong> confirm RGB, RGBW, tunable white, RGB+CCT, color order, and 8- or 16-bit handling.</li>
+<li><strong>Capacity:</strong> check total universes, outputs, pixels per port, and the achievable update rate at the planned load.</li>
+<li><strong>Signal distance:</strong> raw pixel data is distance-sensitive. Place the controller near the first pixel or use a supported differential extender or satellite system.</li>
+<li><strong>Power topology:</strong> determine whether the device passes pixel power, provides fused outputs, or outputs data only. Size power supplies, conductors, connectors, and branch protection separately.</li>
+<li><strong>Commissioning tools:</strong> web configuration, test patterns, universe identification, pixel grouping, reverse direction, brightness limits, diagnostics, and configuration backup can save substantial field time.</li>
+</ol>
+
+<h2>Keep raw SPI runs short</h2>
+<p>The electrical data output to the tape is not Ethernet. It is typically an unbalanced, timing-sensitive signal that can degrade through long cable runs, poor grounding, electrical noise, or unsuitable cable. Manufacturer limits vary by product and protocol, so follow the controller documentation rather than applying a universal distance.</p>
+<p>For long distances, move the pixel controller closer to the tape or use a manufacturer's differential transport system. Examples include ENTTEC's PLink architecture and Visual Productions' SpiExtender approach. These carry a more robust signal over structured cable and convert back to local pixel data near the LEDs.</p>
+
+<h2>Pixel power and controller power are separate</h2>
+<p>Some controllers have powered and fused pixel outputs; others generate data only. Even when power passes through the controller, its terminal, fuse, and per-port current ratings may be far below the total current required by a long tape installation.</p>
+<p>Power injection can feed the tape at additional locations without routing the full LED load through the controller. The controller and pixels still need the correct signal reference, and every power branch needs conductor and overcurrent protection appropriate to its load.</p>
+<div class="note"><p><strong>Read the wiring diagram for the exact device.</strong> “5–24V input” may describe only the controller's own supply range; it does not automatically mean every pixel output can safely distribute the project's full LED current.</p></div>
+
+<h2>Representative professional product approaches</h2>
+<div class="table-scroll"><table><tr><th>Manufacturer</th><th>Representative approach</th><th>Useful distinction</th></tr>
+<tr><td>ENTTEC</td><td>OCTO family for direct network-to-SPI output; Pixelator/PLink architecture for distributed installations</td><td>Direct local SPI and long-distance satellite-style options are separate system designs</td></tr>
+<tr><td>Advatek</td><td>PixLite Mk3 network pixel controllers</td><td>Broad pixel-protocol support, powered/fused output options, and configuration/diagnostic tooling</td></tr>
+<tr><td>Visual Productions</td><td>SpiNode with optional SpiExtender</td><td>DIN-rail Art-Net/sACN-to-SPI conversion with a differential extension option</td></tr>
+<tr><td>DMXKing</td><td>LeDMX/eDMX MAX pixel-output devices</td><td>Art-Net/sACN mapping, configurable pixel types, color order, timing, and playback/failover features depending on model</td></tr>
+<tr><td>Pharos</td><td>Designer controllers as show-control and eDMX sources; SPI through supported EDN/RIO plus SDI hardware or third-party pixel controllers</td><td>Pharos often supplies the programmed lighting data rather than serving as a standalone tape-side decoder</td></tr></table></div>
+<p>These are examples of system architectures, not a ranked buying list. Product capacities and supported protocols change by model and firmware; verify current manufacturer documentation before specifying hardware.</p>
+
+<h2>Example system layouts</h2>
+<h3>Small local installation</h3><span class="formula">Lighting software → Ethernet switch → 4-port pixel controller → short SPI leads → tape + local power injection</span>
+<h3>Distributed architectural installation</h3><span class="formula">Pharos or other show controller → managed lighting network → pixel controllers near each LED zone → local PSUs and protected branches</span>
+<h3>Controller far from the LEDs</h3><span class="formula">Art-Net/sACN source → master pixel controller → differential link over Cat cable → receiver/injector near tape → short SPI lead</span>
+
+<h2>Commissioning checklist</h2>
+<ul><li>Confirm tape voltage and pixel IC from the product datasheet.</li><li>Count IC-controlled pixel groups and channels per group.</li><li>Patch the correct starting universe and channel for every output.</li><li>Set the correct RGB color order and direction.</li><li>Use built-in test patterns before troubleshooting the network source.</li><li>Verify common signal reference and manufacturer grounding instructions.</li><li>Measure voltage at the first and last pixels under full white or maximum load.</li><li>Test loss-of-data, restart, and failover behavior before handover.</li><li>Save and document the final controller configuration.</li></ul>
+
+<div class="cta"><h3>Size the pixel load first</h3><p>Use the calculator to estimate connected load, current, power supplies, voltage drop, injection points, pixel groups, and data-channel count before selecting controller capacity.</p><a class="button" href="/">Open LED Tape Calculator</a></div>
+
+<h2>Related guides</h2><div class="related"><a href="/pixel-control-software-hardware-guide.html">Pixel Control Software &amp; Hardware</a><a href="/dmx-vs-spi-led-tape.html">DMX vs SPI LED Tape: Can’t I Just Use DMX?</a><a href="/differential-spi-extender-guide.html">What Is a Differential SPI Extender?</a><a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a></div>
+
+<h2>Sources &amp; further reading</h2><ul class="sources">
+<li><a href="https://www.enttec.com/products/led-pixel-control" rel="noopener noreferrer">ENTTEC — LED pixel controller families and PLink architecture</a></li>
+<li><a href="https://support.enttec.com/user-manuals/octo-mk3" rel="noopener noreferrer">ENTTEC — OCTO Mk3 configuration and mapping</a></li>
+<li><a href="https://www.advateklighting.com/en-us/products/a4-s-mk3" rel="noopener noreferrer">Advatek — PixLite A4-S Mk3</a></li>
+<li><a href="https://www.visualproductions.nl/products/spinode/" rel="noopener noreferrer">Visual Productions — SpiNode and SpiExtender</a></li>
+<li><a href="https://dmxking.com/downloads/eDMX%20MAX%20Configuration%20Utility%20User%20Manual%20%28EN%29.pdf" rel="noopener noreferrer">DMXKing — eDMX MAX configuration manual</a></li>
+<li><a href="https://www.pharoscontrols.com/designer/hardware/vlc/" rel="noopener noreferrer">Pharos — Designer VLC output architecture</a></li>
+<li><a href="https://www.pharoscontrols.com/support/designer/learn/tips-tricks/advatek-pixlite-mk3-integration-in-pharos-designer/" rel="noopener noreferrer">Pharos — Advatek PixLite Mk3 integration</a></li>
+</ul>
+<h2>Planning disclaimer</h2><p>This guide is for project planning and education. Verify capacities, supported protocols, wiring, power limits, environmental ratings, and safety requirements against current manufacturer documentation for the exact hardware and tape.</p>
+</article><footer class="footer">© 2026 Jim Eischen Designs LLC. All rights reserved. • LED Tape Calculator • 0.2.0-beta • <a href="/privacy.html">Privacy</a> • <a href="mailto:feedback@ledtapecalculator.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+</div><script src="/jargon.js" defer></script></body></html>
+
+
