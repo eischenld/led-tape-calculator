@@ -325,8 +325,8 @@
 
   <div class="footer">
     Beta planning tool only. Calculations are estimates based on user-entered manufacturer data. Final conductor sizing, overcurrent protection, enclosure requirements, listing requirements, Class 2 limitations, and installation methods must comply with applicable codes and manufacturer instructions.
-    <span class="version">v0.1.0-beta</span>
-    <div class="site-links"><a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a></div>
+    <span class="version">v0.1.1-beta</span>
+    <div class="site-links"><a id="feedbackLink" href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a></div>
   </div>
 </div>
 
@@ -344,6 +344,29 @@ const metricWire = {
 const standardPSU = [60,100,120,150,200,240,300,320,350,400,480,500,600,720,1000];
 let unitSystem = "metric";
 const $ = id => document.getElementById(id);
+
+const GA4_MEASUREMENT_ID = "G-28ZMLY8PWQ";
+
+function trackEvent(name, properties={}){
+  try{
+    if(window.zaraz && typeof window.zaraz.track === "function"){
+      window.zaraz.track(name, properties);
+    }
+  }catch(e){
+    // Analytics should never interrupt calculator operation.
+  }
+}
+
+function analyticsTapeProperties(){
+  const tape = getTapeMeta();
+  return {
+    units: unitSystem,
+    voltage: String($("voltage").value || ""),
+    tape_type: tape.name,
+    tape_kind: tape.kind === "ic" ? "addressable_ic" : "constant_voltage"
+  };
+}
+
 
 function nearestStandard(w){
   for(const s of standardPSU){ if(s >= w) return s; }
@@ -400,6 +423,7 @@ function updateTapeFields(){
 
 function switchUnits(target){
   if(target === unitSystem) return;
+  const previousUnitSystem = unitSystem;
 
   const wattsEval = evalMathExpression($("wattsPerFt").value);
   const watts = Number.isFinite(wattsEval) ? wattsEval : 0;
@@ -434,6 +458,10 @@ function switchUnits(target){
   buildWireOptions();
   updateTapeFields();
   calculate();
+  trackEvent("unit_changed", {
+    from_units: previousUnitSystem,
+    to_units: target
+  });
 }
 
 function calculate(){
@@ -566,11 +594,24 @@ Beta estimate only. Verify manufacturer instructions and applicable electrical c
 
 $("imperialBtn").addEventListener("click",()=>switchUnits("imperial"));
 $("metricBtn").addEventListener("click",()=>switchUnits("metric"));
-$("channels").addEventListener("change",()=>{updateTapeFields();calculate();});
+$("channels").addEventListener("change",()=>{
+  updateTapeFields();
+  calculate();
+  const tape = getTapeMeta();
+  trackEvent("tape_type_changed", {
+    tape_type: tape.name,
+    tape_kind: tape.kind === "ic" ? "addressable_ic" : "constant_voltage",
+    voltage: String($("voltage").value || ""),
+    units: unitSystem
+  });
+});
 ["voltage","wattsPerFt","length","runs","maxRun","feedDistance","awg","margin","maxDrop","pixelDensity","pixelsPerIC","project"].forEach(id=>{
   $(id).addEventListener("change",calculate);
 });
-$("calc").addEventListener("click",calculate);
+$("calc").addEventListener("click",()=>{
+  calculate();
+  trackEvent("calculate_project", analyticsTapeProperties());
+});
 $("copy").addEventListener("click",async()=>{
   calculate();
   try{
@@ -583,6 +624,10 @@ $("copy").addEventListener("click",async()=>{
 $("exportPdf").addEventListener("click",()=>{
   calculate();
   const tape = getTapeMeta();
+  trackEvent("export_pdf", {
+    ...analyticsTapeProperties(),
+    pixel_groups: tape.kind === "ic" ? String($("pixelCount").textContent || "") : "not_applicable"
+  });
   const project = $("projectLabel").textContent || "LED Tape Project";
   const statusText = $("status").textContent;
   const bomHTML = $("bomList").innerHTML;
@@ -673,6 +718,13 @@ window.addEventListener("load",()=>setTimeout(()=>window.print(),250));
   w.document.open();
   w.document.write(report);
   w.document.close();
+});
+
+
+$("feedbackLink")?.addEventListener("click",()=>{
+  trackEvent("feedback_clicked", {
+    page: "calculator"
+  });
 });
 
 $("reset").addEventListener("click",()=>{
