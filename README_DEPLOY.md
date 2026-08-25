@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.9-beta (2026-08-24)
+Version: 0.3.13-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -8,6 +8,7 @@ Version: 0.3.9-beta (2026-08-24)
 - `guide.css` — shared guide styling
 - `sitemap.xml` — custom-domain sitemap
 - `index.html` — calculator app
+- `dip.html` — DMX DIP calculator, served by Cloudflare Pages at `/dip`
 - `about.html` — beta/about page
 - `privacy.html` — current no-account/no-project-storage privacy notice
 - `404.html` — not-found page
@@ -145,3 +146,24 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Expanded the calculator wrapper to the full available device viewport while keeping the mode switch visible for immediate exit.
 - Preserved responsive DIP scaling, address increments, validation, and all existing calculator behavior.
 - Added a non-sensitive analytics event containing only the enabled state.
+
+## New in 0.3.10-beta
+- Added the short canonical DMX DIP calculator URL `https://ledtapecalculator.com/dip`.
+- Updated navigation, related links, canonical metadata, Open Graph metadata, and the sitemap to use `/dip`.
+- Added permanent redirects from both legacy long-form DIP calculator paths to `/dip`.
+- Retained the legacy source file in the review package as a redirect-safe fallback while `dip.html` is the canonical page.
+
+## New in 0.3.11-beta
+- Replaced the text-filled Full page button with a familiar horizontal left-to-right toggle.
+- Placed the “Full page” label to the left of the toggle.
+- Moved the control directly above the DMX address and DIP switch section.
+- Preserved accessible switch labeling and a keyboard-visible focus indicator.
+
+## New in 0.3.12-beta
+- Moved the Increment, Last, and Next controls out of the address field.
+- Placed the complete stepping section below the DIP switches and Switches ON summary.
+- Preserved the existing increment validation, address updates, DIP updates, and privacy-conscious analytics.
+
+## New in 0.3.13-beta
+- Removed a visible escaped newline marker between the first two cards on the Guides page.
+- Removed the same visible escaped newline problem from the DMX control guide and verified the complete review package contains no others.
