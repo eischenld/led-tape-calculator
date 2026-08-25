@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.17-beta (2026-08-24)
+Version: 0.3.18-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -189,3 +189,9 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Changed the DMX Address field’s Android keyboard action to Go after some devices continued showing Next.
 - Kept the working Increment field action on Done.
 - Go and Done both finish the edit and dismiss the mobile number pad.
+
+## New in 0.3.18-beta
+- Changed Address and Increment from browser-managed number fields to numeric-keypad text fields so Android is less likely to override Go/Done with Next.
+- Preserved strict whole-number and range validation in the calculator.
+- Added a coarse-pointer fallback: if Android advances from Address to Increment without a deliberate tap, the Increment field immediately releases focus and the number pad closes.
+- Deliberately tapping the Increment field continues to work normally.

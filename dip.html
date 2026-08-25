@@ -75,7 +75,7 @@ body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-heigh
 <h2>DMX Address</h2>
 <div class="field address-field">
 <label for="dmxAddress">Start address (1–512)</label>
-<input id="dmxAddress" type="number" inputmode="numeric" enterkeyhint="go" min="1" max="512" step="1" value="1">
+<input id="dmxAddress" type="text" inputmode="numeric" enterkeyhint="go" pattern="[0-9]*" autocomplete="off" value="1">
 <div class="binary" id="binaryResult">Binary: 000000001</div>
 </div>
 <div id="status" class="status" aria-live="polite"></div>
@@ -86,7 +86,7 @@ body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-heigh
 <div class="dip-board"><div class="dips" id="dipBank"></div></div>
 <div class="switch-summary">Switches ON: <strong id="switchSummary">1</strong></div>
 <div class="increment-row">
-<div><label for="addressIncrement">Increment</label><input id="addressIncrement" type="number" inputmode="numeric" enterkeyhint="done" min="1" max="511" step="1" value="4"></div>
+<div><label for="addressIncrement">Increment</label><input id="addressIncrement" type="text" inputmode="numeric" enterkeyhint="done" pattern="[0-9]*" autocomplete="off" value="4"></div>
 <button id="lastAddress" type="button" title="Subtract the increment from the current address">← Last</button>
 <button id="nextAddress" type="button" title="Add the increment to the current address">Next →</button>
 </div>
@@ -151,7 +151,7 @@ body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-heigh
 <div class="related"><a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide</a></div>
 </section>
 
-<footer class="footer">LED Tape Calculator • 0.3.17-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+<footer class="footer">LED Tape Calculator • 0.3.18-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
 </div>
 
 <script>
@@ -319,6 +319,13 @@ body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-heigh
 
   input.addEventListener("input",()=>updateFromInput(false));
   input.addEventListener("change",()=>updateFromInput(true));
+  let incrementPointerFocus=false;
+  increment.addEventListener("pointerdown",()=>{incrementPointerFocus=true},{passive:true});
+  input.addEventListener("blur",event=>{
+    const androidAdvancedToIncrement=event.relatedTarget===increment&&!incrementPointerFocus&&window.matchMedia("(pointer: coarse)").matches;
+    incrementPointerFocus=false;
+    if(androidAdvancedToIncrement)setTimeout(()=>increment.blur(),0);
+  });
   [input,increment].forEach(field=>field.addEventListener("keydown",event=>{
     if(event.key!=="Enter")return;
     event.preventDefault();
