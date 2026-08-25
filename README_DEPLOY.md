@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.19-beta (2026-08-24)
+Version: 0.3.20-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -201,3 +201,9 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Temporarily removed Increment from Android’s keyboard focus sequence only while Address is being edited, preventing the keyboard from treating Increment as the next field.
 - Restored Increment to the normal focus sequence immediately after address entry.
 - Preserved deliberate touch access to Increment and normal desktop keyboard navigation.
+
+## New in 0.3.20-beta
+- Limited the Full page toggle to mobile and tablet layouts at 940 pixels wide or less.
+- Kept the normal two-column calculator presentation on wider desktop screens.
+- Automatically exits Full page mode if rotation or resizing crosses into the desktop layout.
+- Added a non-sensitive `desktop_breakpoint` reason to the existing Full page analytics event when an automatic exit occurs.
