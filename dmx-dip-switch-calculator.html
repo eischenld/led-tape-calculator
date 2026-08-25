@@ -24,6 +24,7 @@
 .field input,.field select{width:100%;background:#0b1119;color:var(--text);border:1px solid #2b3b4d;border-radius:11px;padding:12px;font-size:16px;outline:none}
 .field input:focus,.field select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(98,182,255,.11)}
 .address-field input{font-size:38px;font-weight:800;line-height:1.1;padding:14px 16px}
+.increment-row{display:grid;grid-template-columns:minmax(72px,.7fr) 1fr 1fr;gap:8px;align-items:end;margin-top:14px}.increment-row label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:700}.increment-row input{width:100%;background:#0b1119;color:var(--text);border:1px solid #2b3b4d;border-radius:10px;padding:11px;font-size:16px;outline:none}.increment-row input:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(98,182,255,.11)}.increment-row button{min-height:43px;border:1px solid #33465a;border-radius:10px;background:#182433;color:var(--text);font-weight:800;cursor:pointer}.increment-row button:hover{border-color:var(--accent2)}.increment-row button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
 .binary{font-family:Consolas,Monaco,monospace;color:#8ed3ff;font-size:13px;margin-top:5px;word-break:break-all}
 .dip-board{border:1px solid var(--line);border-radius:16px;padding:16px;background:#090e14;overflow:hidden}
 .dip-title{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:12px}
@@ -50,6 +51,8 @@
 .bit-table{margin-top:18px}.mini-note{font-size:12px;color:var(--muted);line-height:1.5}
 .tool-intro{margin:18px 0 14px}.tool-intro h1{margin:0 0 6px;font-size:clamp(28px,5vw,44px);line-height:1.08}.tool-intro p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
 .help-stack{display:grid;gap:10px;margin-top:18px}.help-stack details{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}.help-stack summary{cursor:pointer;padding:15px 18px;font-weight:800;color:var(--text);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}.help-stack summary::-webkit-details-marker{display:none}.help-stack summary::after{content:"+";font-size:22px;color:var(--accent2);font-weight:500}.help-stack details[open] summary::after{content:"−"}.help-body{padding:0 18px 18px;color:var(--muted)}.help-body .quick{margin:0 0 16px}.help-body .content{margin:0;padding:0;border:0;background:transparent;box-shadow:none}.related-compact{margin-top:18px}
+.focus-toggle-row{display:flex;justify-content:flex-end;margin:10px 0}.focus-toggle{border:1px solid #33465a;border-radius:999px;background:#182433;color:var(--text);padding:9px 13px;font-size:12px;font-weight:800;cursor:pointer}.focus-toggle[aria-checked="true"]{border-color:rgba(88,214,141,.7);background:rgba(88,214,141,.13);color:#baf5cf}.focus-toggle:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-height:100vh;min-height:100dvh;padding:8px}body.tool-focus .sitebar,body.tool-focus .breadcrumb,body.tool-focus .tool-intro,body.tool-focus .help-stack,body.tool-focus .related-compact,body.tool-focus .footer{display:none}body.tool-focus .focus-toggle-row{position:sticky;top:0;z-index:20;margin:0 0 8px;padding:4px;background:rgba(11,15,20,.94);backdrop-filter:blur(8px)}body.tool-focus .tool-grid{gap:10px}body.tool-focus .tool-panel{box-shadow:none}
 @media(max-width:940px){.tool-grid{grid-template-columns:1fr}}@media(max-width:520px){.tool-panel{padding:14px}.dip-board{padding:10px}.dip-title span{display:none}}
 </style>
 </head>
@@ -60,6 +63,7 @@
 <nav class="nav"><a href="/">LED Calculator</a><a href="/dmx-dip-switch-calculator.html">DMX DIP</a><a href="/guides.html">Guides</a><a href="/about.html">About</a></nav>
 </header>
 <div class="breadcrumb"><a href="/">Calculator</a> › DMX DIP Switch Calculator</div>
+<div class="focus-toggle-row"><button id="fullPageToggle" class="focus-toggle" type="button" role="switch" aria-checked="false">Full page: Off</button></div>
 
 <section class="tool-intro">
 <h1>DMX DIP Switch Calculator</h1>
@@ -74,6 +78,11 @@
 <label for="dmxAddress">Start address (1–512)</label>
 <input id="dmxAddress" type="number" inputmode="numeric" min="1" max="512" step="1" value="1">
 <div class="binary" id="binaryResult">Binary: 000000001</div>
+<div class="increment-row">
+<div><label for="addressIncrement">Increment</label><input id="addressIncrement" type="number" inputmode="numeric" min="1" max="511" step="1" value="4"></div>
+<button id="lastAddress" type="button" title="Subtract the increment from the current address">← Last</button>
+<button id="nextAddress" type="button" title="Add the increment to the current address">Next →</button>
+</div>
 </div>
 <div id="status" class="status" aria-live="polite"></div>
 </div>
@@ -91,6 +100,7 @@
 <summary>Quick guide and switch values</summary>
 <div class="help-body">
 <div class="quick"><strong>Typical decoder layout:</strong> switches 1–9 represent 1, 2, 4, 8, 16, 32, 64, 128 and 256. Switch 10 is often a test, mode, termination or other manufacturer-specific function—not part of the DMX address. Always check the decoder manual.</div>
+<p class="mini-note"><strong>All switches OFF:</strong> most decoders default to DMX address 1. This calculator shows address 1 for an all-off bank, but the decoder manual remains authoritative.</p>
 <p class="mini-note">The physical ON direction varies by decoder. Use the printed <strong>ON</strong> marking next to the actual DIP bank rather than assuming up or down.</p>
 <table class="bit-table">
 <thead><tr><th>Switch</th><th>Address value</th><th>Meaning</th></tr></thead>
@@ -142,12 +152,16 @@
 <div class="related"><a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide</a></div>
 </section>
 
-<footer class="footer">LED Tape Calculator • 0.3.6-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+<footer class="footer">LED Tape Calculator • 0.3.9-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
 </div>
 
 <script>
 (()=>{
   const input=document.getElementById("dmxAddress");
+  const increment=document.getElementById("addressIncrement");
+  const lastAddress=document.getElementById("lastAddress");
+  const nextAddress=document.getElementById("nextAddress");
+  const fullPageToggle=document.getElementById("fullPageToggle");
   const bank=document.getElementById("dipBank");
   const binary=document.getElementById("binaryResult");
   const status=document.getElementById("status");
@@ -240,9 +254,9 @@
     const last=8;
     for(let i=0;i<=last;i++)if(switches[i])active.push(i+1);
     summary.textContent=active.length?active.join(", "):"None";
-    if(addr<1){
+    if(addr===1&&active.length===0){
       status.className="status warn";
-      status.textContent="All address switches are OFF, which calculates to 0. DMX start address 0 is not normally usable.";
+      status.textContent="All address switches are OFF. Most decoders default to DMX address 1 in this state; verify the decoder manual.";
     }else{
       status.className="status";
       status.textContent="";
@@ -255,7 +269,7 @@
     status.textContent=message;
   }
 
-  function updateFromInput(track=false){
+  function updateFromInput(track=false,interactionType="address_input"){
     const raw=input.value.trim();
     if(!raw){showInputError("Enter a DMX address from 1 to 512.");return}
     if(!/^\d{1,3}$/.test(raw)){showInputError("Enter a whole number using 1 to 3 digits.");return}
@@ -269,16 +283,28 @@
       summary.textContent="Not representable";
       status.className="status warn";
       status.textContent="Address 512 cannot be represented by standard switches 1–9. Check the decoder manual for another programming method or an uncommon switch-10-as-512 layout.";
-      if(track){trackToolUsed("address_input",addr);trackEvent("dmx_dip_address_calculated",analyticsProperties("address_input",addr))}
+      if(track){trackToolUsed(interactionType,addr);trackEvent("dmx_dip_address_calculated",analyticsProperties(interactionType,addr))}
       return;
     }
 
     setSwitchesFromAddress(addr);buildBank();render(addr);
-    if(track){trackToolUsed("address_input",addr);trackEvent("dmx_dip_address_calculated",analyticsProperties("address_input",addr))}
+    if(track){trackToolUsed(interactionType,addr);trackEvent("dmx_dip_address_calculated",analyticsProperties(interactionType,addr))}
+  }
+
+  function stepAddress(direction){
+    const raw=input.value.trim();
+    if(!/^\d{1,3}$/.test(raw)||Number(raw)<1||Number(raw)>512){updateFromInput(false);return}
+    const stepRaw=increment.value.trim();
+    if(!/^\d{1,3}$/.test(stepRaw)||Number(stepRaw)<1||Number(stepRaw)>511){showInputError("Increment must be a whole number from 1 to 511.");return}
+    const target=Number(raw)+(direction*Number(stepRaw));
+    if(target<1||target>512){showInputError(`That step would produce address ${target}. Choose an increment that keeps the address between 1 and 512.`);return}
+    input.value=String(target);
+    updateFromInput(true,direction>0?"next_address":"last_address");
   }
 
   function updateFromSwitches(track=false){
-    const addr=addressFromSwitches();
+    const switchTotal=addressFromSwitches();
+    const addr=switchTotal===0?1:switchTotal;
     input.value=String(addr);
     render(addr);
     if(track){trackToolUsed("switch_toggle",addr);trackEvent("dmx_dip_switch_toggled",analyticsProperties("switch_toggle",addr))}
@@ -286,6 +312,15 @@
 
   input.addEventListener("input",()=>updateFromInput(false));
   input.addEventListener("change",()=>updateFromInput(true));
+  lastAddress.addEventListener("click",()=>stepAddress(-1));
+  nextAddress.addEventListener("click",()=>stepAddress(1));
+  fullPageToggle.addEventListener("click",()=>{
+    const enabled=!document.body.classList.contains("tool-focus");
+    document.body.classList.toggle("tool-focus",enabled);
+    fullPageToggle.setAttribute("aria-checked",String(enabled));
+    fullPageToggle.textContent=enabled?"Full page: On":"Full page: Off";
+    trackEvent("dmx_dip_full_page_toggled",{enabled});
+  });
   buildBank();updateFromInput(false);
 })();
 </script>

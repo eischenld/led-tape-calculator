@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.6-beta (2026-08-24)
+Version: 0.3.9-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -61,6 +61,7 @@ The calculator is instrumented for these custom events:
 - `dmx_dip_tool_used` (once per page load, on the first meaningful DIP-tool interaction)
 - `dmx_dip_address_calculated`
 - `dmx_dip_switch_toggled`
+- `dmx_dip_full_page_toggled`
 
 Event properties are intentionally limited to non-identifying product-usage information such as unit system, voltage, tape category/type, and (for IC tape PDF export) calculated pixel-group count. DMX DIP events use interaction type, decoder layout, representability, and a coarse address range instead of the exact address. Project names, personally identifying information, cookies, persistent IDs, and detailed calculator inputs are not intentionally sent with custom events.
 
@@ -124,3 +125,23 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Accepted whole-number entries from 1 through 512 and continued to update the DIP bank immediately for valid values.
 - Left invalid input visible for correction and added clear errors for blank, zero, non-integer, over-512, and longer-than-three-digit entries.
 - Preserved the special warning for address 512, which cannot be represented by address switches 1–9.
+
+## New in 0.3.7-beta
+- Treated an all-off address-switch bank as the common decoder default of DMX address 1.
+- When switches are manually turned all off, the shared address field now displays 1 instead of 0.
+- Added a concise note that decoder behavior can vary and the manufacturer manual remains authoritative.
+- Kept typed address 1 represented conventionally with switch 1 ON.
+
+## New in 0.3.8-beta
+- Added an address increment control that defaults to 4 for common RGBW decoder workflows.
+- Added Last and Next buttons that subtract or add the selected increment.
+- Updated the shared address field and DIP bank together after every successful step.
+- Kept the current address unchanged and displayed a correction message when a step would leave the 1–512 range.
+- Recorded stepped calculations through the existing privacy-conscious event using `last_address` or `next_address` interaction types.
+
+## New in 0.3.9-beta
+- Added an accessible Full page on/off switch for focused mobile use.
+- Full-page mode hides the site header, breadcrumb, introductory copy, help sections, related guides, and footer.
+- Expanded the calculator wrapper to the full available device viewport while keeping the mode switch visible for immediate exit.
+- Preserved responsive DIP scaling, address increments, validation, and all existing calculator behavior.
+- Added a non-sensitive analytics event containing only the enabled state.
