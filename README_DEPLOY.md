@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.14-beta (2026-08-24)
+Version: 0.3.15-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -174,3 +174,8 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Added a prominent DMX DIP Switch Calculator card to the main calculator page while retaining the footer link.
 - Added failure-safe, privacy-conscious tracking for main-page DIP link placement and coarse increment changes.
 - Enriched the existing Full page toggle event with layout, representability, interaction type, and coarse address range—never an exact DMX address.
+
+## New in 0.3.15-beta
+- Requested an Enter action instead of Next on mobile keyboards for the DMX address and increment fields.
+- Made Enter finish the current edit and remove focus from either field, dismissing the mobile number pad.
+- Preserved live address-to-switch updates, validation, stepping behavior, and analytics.
