@@ -1,6 +1,6 @@
 # LED Tape Project Calculator — Cloudflare Pages package
 
-Version: 0.3.15-beta (2026-08-24)
+Version: 0.3.16-beta (2026-08-24)
 
 ## What is included
 - `guides.html` — guide library landing page
@@ -179,3 +179,8 @@ The homepage now links into the guide library. Canonical URLs and the sitemap us
 - Requested an Enter action instead of Next on mobile keyboards for the DMX address and increment fields.
 - Made Enter finish the current edit and remove focus from either field, dismissing the mobile number pad.
 - Preserved live address-to-switch updates, validation, stepping behavior, and analytics.
+
+## New in 0.3.16-beta
+- Changed both numeric keyboard action hints from Enter to Done because some mobile keyboards continued rendering Enter as Next.
+- Pressing the action key still removes focus and dismisses the number pad.
+- Retained the calculator’s separate Last and Next buttons for stepping through decoder addresses.
