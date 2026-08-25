@@ -75,7 +75,7 @@ body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-heigh
 <h2>DMX Address</h2>
 <div class="field address-field">
 <label for="dmxAddress">Start address (1–512)</label>
-<input id="dmxAddress" type="text" inputmode="numeric" enterkeyhint="go" pattern="[0-9]*" autocomplete="off" value="1">
+<input id="dmxAddress" type="text" inputmode="numeric" enterkeyhint="done" pattern="[0-9]*" autocomplete="off" value="1">
 <div class="binary" id="binaryResult">Binary: 000000001</div>
 </div>
 <div id="status" class="status" aria-live="polite"></div>
@@ -151,7 +151,7 @@ body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-heigh
 <div class="related"><a href="/dmx-led-tape-control.html">How to Control LED Tape with DMX, sACN and Art-Net</a><a href="/rgb-vs-rgbw-vs-rgbcct.html">RGB vs RGBW vs RGB+CCT LED Tape</a><a href="/led-tape-power-supply-sizing.html">How to Size a Power Supply for LED Tape</a><a href="/led-tape-wire-size.html">LED Tape Wire Size Guide</a></div>
 </section>
 
-<footer class="footer">LED Tape Calculator • 0.3.18-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
+<footer class="footer">LED Tape Calculator • 0.3.19-beta • <a href="/guides.html">Guides</a> • <a href="/privacy.html">Privacy</a> • <a href="mailto:eischenld@gmail.com?subject=LED%20Tape%20Calculator%20Feedback">Feedback</a></footer>
 </div>
 
 <script>
@@ -320,11 +320,18 @@ body.tool-focus{overflow-x:hidden}body.tool-focus .wrap{max-width:none;min-heigh
   input.addEventListener("input",()=>updateFromInput(false));
   input.addEventListener("change",()=>updateFromInput(true));
   let incrementPointerFocus=false;
+  let restoreIncrementTabOrder;
+  input.addEventListener("focus",()=>{
+    if(!window.matchMedia("(pointer: coarse)").matches)return;
+    clearTimeout(restoreIncrementTabOrder);
+    increment.tabIndex=-1;
+  });
   increment.addEventListener("pointerdown",()=>{incrementPointerFocus=true},{passive:true});
   input.addEventListener("blur",event=>{
     const androidAdvancedToIncrement=event.relatedTarget===increment&&!incrementPointerFocus&&window.matchMedia("(pointer: coarse)").matches;
     incrementPointerFocus=false;
     if(androidAdvancedToIncrement)setTimeout(()=>increment.blur(),0);
+    restoreIncrementTabOrder=setTimeout(()=>increment.removeAttribute("tabindex"),250);
   });
   [input,increment].forEach(field=>field.addEventListener("keydown",event=>{
     if(event.key!=="Enter")return;
